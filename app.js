@@ -17,4 +17,8 @@ app.use(upload.array());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+const lgoin = require('./routes/login');
+
+app.use(lgoin);
+
 module.exports = app;
