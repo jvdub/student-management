@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home.vue';
+import Home from '../views/Home.vue';
 import Auth from '@okta/okta-vue';
-import NotFoundComponent from './views/404.vue';
+import NotFoundComponent from '../views/404.vue';
 
 Vue.use(Router);
 
@@ -13,23 +13,26 @@ Vue.use(Auth, {
     scope: 'openid profile email'
 });
 
-export default new Router({
+let index = new Router({
     mode: 'history',
     base: process.env.BASE_URL,
     routes: [
-        {
-            path: '/implicit/callback',
-            component: Auth.handleCallback()
-        },
         {
             path: '/',
             name: 'home',
             component: Home
         },
         {
-            path: '/login',
-            name: 'login',
-            component: () => import(/* webpackChunkName: "login" */ './views/Login.vue')
+            path: '/implicit/callback',
+            component: Auth.handleCallback()
+        },
+        {
+            path: '/dashboard',
+            name: 'dashboard',
+            component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'),
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             /* Everything else doesn't exist--show the 404. */
@@ -38,3 +41,7 @@ export default new Router({
         }
     ]
 });
+
+index.beforeEach(Vue.prototype.$auth.authRedirectGuard());
+
+export default index;

@@ -1,77 +1,49 @@
 <template>
     <div id="app">
-        <div id="nav">
-            <router-link to="/">Home</router-link>
-            <button v-if='this.$store.state.authenticated' class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" v-on:click='logout' id='logout-button'> Logout</button>
-            <button v-else :click='login' class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" id='login-button'> Login</button>
-        </div>
-        <router-view/>
+        <b-navbar toggleable="md" type="dark" variant="dark">
+            <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+            <b-navbar-brand to="/">My Vue App</b-navbar-brand>
+            <b-collapse is-nav id="nav_collapse">
+                <b-navbar-nav>
+                    <b-nav-item to="/">Home</b-nav-item>
+                    <b-nav-item to="/dashboard">Dashboard</b-nav-item>
+                    <b-nav-item href="#" @click.prevent="login" v-if="!activeUser">Login</b-nav-item>
+                    <b-nav-item href="#" @click.prevent="logout" v-else>Logout</b-nav-item>
+                </b-navbar-nav>
+            </b-collapse>
+        </b-navbar>
+        <!-- routes will be rendered here -->
+        <router-view />
     </div>
 </template>
 
 <script>
-export default {
-    methods: {
-        login() {
-            this.$auth.loginRedirect('/');
+    export default {
+        name: 'app',
+        data () {
+            return {
+                activeUser: null
+            };
         },
-        async logout() {
-            await this.$auth.logout();
-            await store.getters.isAuthenticated(store.state);
-
-            // Navigate back to home
-            this.$router.push({ path: '/' });
+        async created () {
+            await this.refreshActiveUser();
+        },
+        watch: {
+            // everytime a route is changed refresh the activeUser
+            '$route': 'refreshActiveUser'
+        },
+        methods: {
+            login () {
+                this.$auth.loginRedirect();
+            },
+            async refreshActiveUser () {
+                this.activeUser = await this.$auth.getUser();
+            },
+            async logout () {
+                await this.$auth.logout();
+                await this.refreshActiveUser();
+                this.$router.push('/');
+            }
         }
     }
-}
 </script>
-
-<style>
-    @import '../node_modules/material-design-lite/dist/material.min.css';
-    /* fallback */
-    @font-face {
-        font-family: 'Material Icons';
-        font-style: normal;
-        font-weight: 400;
-        src: url(https://fonts.gstatic.com/s/materialicons/v41/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
-    }
-
-    .material-icons {
-        font-family: 'Material Icons';
-        font-weight: normal;
-        font-style: normal;
-        font-size: 24px;
-        line-height: 1;
-        letter-spacing: normal;
-        text-transform: none;
-        display: inline-block;
-        white-space: nowrap;
-        word-wrap: normal;
-        direction: ltr;
-        -webkit-font-feature-settings: 'liga';
-        -webkit-font-smoothing: antialiased;
-    }
-
-    #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-align: center;
-        color: #2c3e50;
-    }
-
-    #nav {
-        padding: 30px;
-    }
-
-    #nav a {
-        font-weight: bold;
-        color: #2c3e50;
-    }
-
-    #nav a.router-link-exact-active {
-        color: #42b983;
-    }
-</style>
-
-<script defer src="../node_modules/material-design-lite/dist/material.min.js"></script>
