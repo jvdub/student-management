@@ -1,4 +1,4 @@
-# vue-interview-feedback
+# vue
 
 ## Project setup
 ```
