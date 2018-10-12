@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '../views/Home.vue';
 import Auth from '@okta/okta-vue';
-import NotFoundComponent from '../views/404.vue';
+import NotFoundComponent from '../views/NotFound.vue';
 
 Vue.use(Router);
 
@@ -25,14 +25,6 @@ let index = new Router({
         {
             path: '/implicit/callback',
             component: Auth.handleCallback()
-        },
-        {
-            path: '/dashboard',
-            name: 'dashboard',
-            component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'),
-            meta: {
-                requiresAuth: true
-            }
         },
         {
             /* Everything else doesn't exist--show the 404. */

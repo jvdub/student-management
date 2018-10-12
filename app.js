@@ -4,7 +4,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const multer = require('multer');
-const history = require('connect-history-api-fallback');
 const OktaJwtVerifier = require('@okta/jwt-verifier');
 
 const oktaJwtVerifier = new OktaJwtVerifier({
@@ -50,28 +49,23 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(upload.array());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(history({
-    index: '/public/default.html'
-}));
 
-// const t = require('./routes/t');
-//
-// app.use(t);
+const t = require('./routes/test');
 
-/**
- * Another example route that requires a valid access token for authentication, and
- * print some messages for the user if they are authenticated
- */
-app.get('/api/test', authenticationRequired, (req, res) => {
-    res.json([{
-        message: 'Hello, word!'
-    }]);
+app.use(t);
+
+app.get('/api/test', (req, res) => {
+    res.send('poop!');
 });
 
-app.get('*', (req, res, next) => {
+app.use((req, res, next) => {
+    console.log('got to error catch');
     return res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
-app.get('*', );
+// app.get('*', (req, res, next) => {
+//     console.log('got to catchall');
+//     return res.sendFile(path.join(__dirname, './public/index.html'));
+// });
 
 module.exports = app;
