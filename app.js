@@ -5,6 +5,7 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const OktaJwtVerifier = require('@okta/jwt-verifier');
+const session = require('express-session');
 
 const oktaJwtVerifier = new OktaJwtVerifier({
     issuer: 'https://dev-512457.oktapreview.com/oauth2/default',
@@ -12,31 +13,6 @@ const oktaJwtVerifier = new OktaJwtVerifier({
         aud: 'api://default',
     },
 });
-
-/**
- * A simple middleware that asserts valid access tokens and sends 401 responses
- * if the token is not present or fails validation.  If the token is valid its
- * contents are attached to req.jwt
- */
-function authenticationRequired(req, res, next) {
-    const authHeader = req.headers.authorization || '';
-    const match = authHeader.match(/Bearer (.+)/);
-
-    if (!match) {
-        return res.status(401).end();
-    }
-
-    const accessToken = match[1];
-
-    return oktaJwtVerifier.verifyAccessToken(accessToken)
-        .then((jwt) => {
-            req.jwt = jwt;
-            next();
-        })
-        .catch((err) => {
-            res.status(401).send(err.message);
-        });
-}
 
 let upload = multer();
 let app = express();
@@ -49,23 +25,44 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(upload.array());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+    secret: 'LONG_RANDOM_STRING_HERE_TO_BE_REPLACED_WITH_ENV_VAR-2135872:mashin\' the keyboard like nobody\'s bidniss.',
+    resave: true,
+    saveUninitialized: false
+}));
+
+app.use('/implicit/callback', (req, res, next) => {
+    return res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+// verify JWT token middleware
+app.use((req, res, next) => {
+    // require every request to have an authorization header
+    if (!req.headers.authorization) {
+        return next(new Error('Authorization header is required'));
+    }
+
+    let parts = req.headers.authorization.trim().split(' ');
+    let accessToken = parts.pop();
+
+    oktaJwtVerifier.verifyAccessToken(accessToken)
+        .then(jwt => {
+            req.user = {
+                uid: jwt.claims.uid,
+                email: jwt.claims.sub
+            };
+            next();
+        })
+        .catch(next); // jwt did not verify!
+});
 
 const t = require('./routes/test');
 
 app.use(t);
 
-app.get('/api/test', (req, res) => {
-    res.send('poop!');
-});
-
 app.use((req, res, next) => {
     console.log('got to error catch');
     return res.sendFile(path.join(__dirname, './public/index.html'));
 });
-
-// app.get('*', (req, res, next) => {
-//     console.log('got to catchall');
-//     return res.sendFile(path.join(__dirname, './public/index.html'));
-// });
 
 module.exports = app;
