@@ -61,6 +61,7 @@ const t = require('./routes/test');
 app.use(t);
 
 app.use((req, res, next) => {
+    // If no matching path, pass back to Vue to handle (likely to show 404 page).
     console.log('got to error catch');
     return res.sendFile(path.join(__dirname, './public/index.html'));
 });

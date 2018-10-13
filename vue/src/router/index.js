@@ -3,6 +3,8 @@ import Router from 'vue-router';
 import Home from '../views/Home.vue';
 import Auth from '@okta/okta-vue';
 import NotFoundComponent from '../views/NotFound.vue';
+import LearningPlanList from '../views/LearningPlanList';
+import CreateLearningPlan from '../views/CreateLearningPlan';
 
 Vue.use(Router);
 
@@ -25,6 +27,22 @@ let index = new Router({
         {
             path: '/implicit/callback',
             component: Auth.handleCallback()
+        },
+        {
+            path: '/learning-plan',
+            name: 'learningplanlist',
+            component: LearningPlanList,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/learning-plan/new',
+            name: 'createlearningplan',
+            component: CreateLearningPlan,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             /* Everything else doesn't exist--show the 404. */
