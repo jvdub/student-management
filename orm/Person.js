@@ -77,9 +77,9 @@ const Person = sqlz.define('person', {
 // If testing locally, you may want to include `{ force: true }` in the call to `sync`.
 // This option will wipe the DB and recreate it every time.
 Person.sync().then(() => {
-    console.log('Table successfully created/updated.');
+    console.log('Person Table successfully created/updated.');
 }).catch(() => {
-    console.log('Error syncing table.');
+    console.log('Error syncing Person table.');
 });
 
 module.exports = Person;

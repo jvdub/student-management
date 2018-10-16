@@ -2,7 +2,7 @@
     <div class="home">
         <img alt="Vue logo" src="../assets/logo.png">
         <p>Student Management</p>
-        <p v-if="this.$store.state.authenticated">You done it! {{message}}</p>
+        <p v-if="this.$store.state.authenticated">You done it, {{`${user.firstName} ${user.lastName}`}}!</p>
     </div>
 </template>
 
@@ -32,14 +32,14 @@ async function execute(method, resource, data) {
 }
 
 function getMessage() {
-    return execute('get', '/api/test');
+    return execute('get', '/api/user');
 }
 
 export default {
     name: 'home',
     data() {
         return {
-            message: null,
+            user: null,
             loading: false
         };
     },
@@ -49,7 +49,7 @@ export default {
     methods: {
         async refreshMessage() {
             this.loading = true;
-            this.message = await getMessage();
+            this.user = await getMessage();
             this.loading = false;
         }
     }

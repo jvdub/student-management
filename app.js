@@ -57,8 +57,10 @@ app.use((req, res, next) => {
 });
 
 const t = require('./routes/test');
-
 app.use(t);
+
+const user = require('./routes/user');
+app.use(user);
 
 app.use((req, res, next) => {
     // If no matching path, pass back to Vue to handle (likely to show 404 page).
