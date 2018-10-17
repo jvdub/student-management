@@ -4,15 +4,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const multer = require('multer');
-const OktaJwtVerifier = require('@okta/jwt-verifier');
 const session = require('express-session');
-
-const oktaJwtVerifier = new OktaJwtVerifier({
-    issuer: 'https://dev-512457.oktapreview.com/oauth2/default',
-    assertClaims: {
-        aud: 'api://default',
-    },
-});
 
 let upload = multer();
 let app = express();
@@ -33,27 +25,6 @@ app.use(session({
 
 app.use('/implicit/callback', (req, res, next) => {
     return res.sendFile(path.join(__dirname, './public/index.html'));
-});
-
-// verify JWT token middleware
-app.use((req, res, next) => {
-    // require every request to have an authorization header
-    if (!req.headers.authorization) {
-        return next(new Error('Authorization header is required'));
-    }
-
-    let parts = req.headers.authorization.trim().split(' ');
-    let accessToken = parts.pop();
-
-    oktaJwtVerifier.verifyAccessToken(accessToken)
-        .then(jwt => {
-            req.user = {
-                uid: jwt.claims.uid,
-                email: jwt.claims.sub
-            };
-            next();
-        })
-        .catch(next); // jwt did not verify!
 });
 
 const t = require('./routes/test');

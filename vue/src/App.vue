@@ -18,6 +18,34 @@
 </template>
 
 <script>
+import axios from 'axios';
+import Vue from 'vue';
+
+const client = axios.create({
+    baseURL: 'http://localhost:3000/',
+    json: true
+});
+
+async function execute(method, resource, data) {
+    // inject the accessToken for each request
+    let accessToken = await Vue.prototype.$auth.getAccessToken();
+
+    return client({
+        method,
+        url: resource,
+        data,
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        }
+    }).then(req => {
+        return req.data;
+    });
+}
+
+function getUser() {
+    return execute('get', '/api/user');
+}
+
 export default {
     name: 'app',
     async created() {
@@ -32,6 +60,7 @@ export default {
             this.$auth.loginRedirect();
         },
         async refreshActiveUser() {
+            this.$store.state.user = await getUser();
             this.$store.state.authenticated = await this.$auth.getUser();
         },
         async logout() {
