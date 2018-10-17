@@ -33,6 +33,9 @@ app.use(t);
 const user = require('./routes/user');
 app.use(user);
 
+const ref = require('./routes/ref');
+app.use(ref);
+
 app.use((req, res, next) => {
     // If no matching path, pass back to Vue to handle (likely to show 404 page).
     console.log('got to error catch');
