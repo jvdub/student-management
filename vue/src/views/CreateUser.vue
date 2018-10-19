@@ -13,6 +13,10 @@
         <b-form-input id="birthdate" type="text" v-model="birthdate"></b-form-input>
         <label for="gender">Gender</label>
         <b-form-select id="gender" text="Gender" v-model="gender" :options="genderOptions"></b-form-select>
+        <label for="state">State of Residence</label>
+        <b-form-select id="state" text="State of Residence" v-model="state" :options="stateOptions"></b-form-select>
+        <label for="role">Role</label>
+        <b-form-select id="role" text="Role" v-model="role" :options="roleOptions"></b-form-select>
         <b-button type="submit" @click="submit">Create</b-button>
     </b-container>
 </template>
@@ -46,6 +50,14 @@ function getGenderOptions() {
     return execute('get', '/api/ref/gender');
 }
 
+function getStateOptions() {
+    return execute('get', '/api/ref/state');
+}
+
+function getRoleOptions() {
+    return execute('get', '/api/ref/role');
+}
+
 export default {
     name: 'CreateUser',
     data() {
@@ -56,11 +68,17 @@ export default {
             email: '',
             birthdate: '',
             gender: 0,
-            genderOptions: []
+            genderOptions: [],
+            state: '',
+            stateOptions: [],
+            role: '',
+            roleOptions: []
         };
     },
     async created() {
         this.refreshGenderOptions();
+        this.refreshStateOptions();
+        this.refreshRoleOptions();
     },
     methods: {
         async refreshGenderOptions() {
@@ -74,13 +92,37 @@ export default {
                 };
             });
         },
+        async refreshStateOptions() {
+            let stateData = await getStateOptions();
+
+            this.stateOptions = stateData.map((state) => {
+                return {
+                    value: state.id,
+                    text: state.description
+                };
+            });
+        },
+        async refreshRoleOptions() {
+            let roleData = await getRoleOptions();
+
+            this.roleOptions = roleData.map((role) => {
+                return {
+                    value: role.id,
+                    text: role.name
+                };
+            });
+        },
         submit() {
             let data = {
                 profile: {
                     firstName: this.firstName,
                     lastName: this.lastName,
                     email: this.email,
-                    login: this.email
+                    login: this.email,
+                    birthdate: this.birthdate,
+                    gender: this.gender,
+                    state: this.state,
+                    role: this.role
                 }
             };
 
