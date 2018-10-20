@@ -5,6 +5,7 @@ import Auth from '@okta/okta-vue';
 import NotFoundComponent from '../views/NotFound.vue';
 import LearningPlanList from '../views/LearningPlanList';
 import CreateLearningPlan from '../views/CreateLearningPlan';
+import Users from '../views/Users';
 import CreateUser from '../views/CreateUser';
 
 Vue.use(Router);
@@ -41,6 +42,14 @@ let index = new Router({
             path: '/learning-plan/new',
             name: 'createlearningplan',
             component: CreateLearningPlan,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/users',
+            name: 'users',
+            component: Users,
             meta: {
                 requiresAuth: true
             }

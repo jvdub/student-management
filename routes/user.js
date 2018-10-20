@@ -3,6 +3,10 @@ const user = require('../api/user');
 const okta = require('../okta');
 let router = express.Router();
 
+router.get('/api/users/', okta.authenticationRequired, function(req, res) {
+    user.getAllUsers(res);
+});
+
 router.get('/api/user/', okta.authenticationRequired, function(req, res) {
     user.getPersonFromLoginIdentifier(req.jwt.claims.sub, res);
 });

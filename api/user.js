@@ -21,18 +21,19 @@ function cloneObject(obj) {
 }
 
 module.exports = {
-    getPersonFromLoginIdentifier: (loginIdentifier, res) => {
-        Authentication.find({ where: { loginIdentifier: loginIdentifier } }).then((authentication) => {
-            OrganizationPersonRole.findById(authentication.organizationPersonRoleId).then((orgPersonRole) => {
-                Person.findById(orgPersonRole.personId).then((person) => {
-                    Role.findById(orgPersonRole.roleId).then((role) => {
-                        res.send({
-                            role: role,
-                            person: person
-                        });
-                    });
-                });
-            });
+    async getAllUsers(res) {
+        let persons = await Person.findAll();
+        res.send(persons);
+    },
+    async getPersonFromLoginIdentifier(loginIdentifier, res) {
+        let authentication = await Authentication.find({ where: { loginIdentifier: loginIdentifier } });
+        let orgPersonRole = await OrganizationPersonRole.findById(authentication.organizationPersonRoleId);
+        let person = await Person.findById(orgPersonRole.personId);
+        let role = await Role.findById(orgPersonRole.roleId);
+
+        res.send({
+            role: role,
+            person: person
         });
     },
     async createNewUser(req, res) {
