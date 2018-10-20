@@ -27,6 +27,10 @@ const Person = sqlz.define('person', {
         field: 'generation_code',
         type: Sequelize.TEXT
     },
+    gender: {
+        field: 'ref_sex_id',
+        type: Sequelize.INTEGER
+    },
     prefix: {
         type: Sequelize.TEXT
     },

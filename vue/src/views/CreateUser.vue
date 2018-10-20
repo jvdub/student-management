@@ -114,16 +114,14 @@ export default {
         },
         submit() {
             let data = {
-                profile: {
-                    firstName: this.firstName,
-                    lastName: this.lastName,
-                    email: this.email,
-                    login: this.email,
-                    birthdate: this.birthdate,
-                    gender: this.gender,
-                    state: this.state,
-                    role: this.role
-                }
+                firstName: this.firstName,
+                middleName: this.middleName,
+                lastName: this.lastName,
+                email: this.email,
+                birthdate: this.birthdate,
+                gender: this.gender,
+                state: this.state,
+                role: this.role
             };
 
             return execute('post', '/api/user', data);
