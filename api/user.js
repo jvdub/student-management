@@ -36,6 +36,16 @@ module.exports = {
             person: person
         });
     },
+    async getPersonByUserId(userId, res) {
+        let person = await Person.findById(userId);
+        let orgPersonRole = await OrganizationPersonRole.find({ where: { personId: userId } });
+        let role = await Role.findById(orgPersonRole.roleId);
+
+        res.send({
+            role: role,
+            person: person
+        });
+    },
     async createNewUser(req, res) {
         const reqLoginId = req.jwt.claims.sub;
         const requestBody = cloneObject(req.body);
@@ -70,7 +80,7 @@ module.exports = {
                             lastName: pData.lastName,
                             birthdate: pData.birthdate,
                             gender: pData.gender,
-                            stateOfResidence: pData.state
+                            state: pData.state
                         }
                     });
                 } catch (e) {

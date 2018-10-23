@@ -1,7 +1,9 @@
 <template>
     <div class="users">
         <b-button to="/create-user">Create New User</b-button>
-        <b-table responsive striped hover :items="users"></b-table>
+        <b-list-group>
+            <b-list-group-item v-for="user in users" v-bind:href="`/user/${user.id}`">{{`${user.lastName}, ${user.firstName}`}}</b-list-group-item>
+        </b-list-group>
     </div>
 </template>
 
@@ -52,6 +54,7 @@ export default {
 
             this.users = userData.map((user) => {
                 return {
+                    id: user.id,
                     lastName: user.lastName,
                     firstName: user.firstName
                 };

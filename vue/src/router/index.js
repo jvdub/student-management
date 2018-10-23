@@ -6,6 +6,7 @@ import NotFoundComponent from '../views/NotFound.vue';
 import LearningPlanList from '../views/LearningPlanList';
 import CreateLearningPlan from '../views/CreateLearningPlan';
 import Users from '../views/Users';
+import User from '../views/User';
 import CreateUser from '../views/CreateUser';
 
 Vue.use(Router);
@@ -50,6 +51,14 @@ let index = new Router({
             path: '/users',
             name: 'users',
             component: Users,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/user/:id',
+            name: 'user',
+            component: User,
             meta: {
                 requiresAuth: true
             }

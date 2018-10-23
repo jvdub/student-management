@@ -49,7 +49,7 @@ const Person = sqlz.define('person', {
         field: 'ref_visa_type_id',
         type: Sequelize.INTEGER
     },
-    stateOfResidence: {
+    state: {
         field: 'ref_state_of_residence_id',
         type: Sequelize.INTEGER
     },
