@@ -1,72 +1,72 @@
 <template>
-    <div class="create-learning-plan">
-        <div class="row">
-            <div class="col">
+    <b-container>
+        <b-row>
+            <b-col>
                 <img src="https://www.americanprep.org/wp-content/uploads/2014/06/aps_logo1.png"/>
-            </div>
-            <div class="col">
+            </b-col>
+            <b-col>
                 <h1><b-form-input type="text" placeholder="Grade"></b-form-input> Learning Plan</h1>
                 <h4>{{teacher}}</h4>
-            </div>
-            <div class="col">
+            </b-col>
+            <b-col>
                 <p>Week of:</p>
                 <p><b-form-input type="text" placeholder="This week's dates"></b-form-input></p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
+            </b-col>
+        </b-row>
+        <b-row>
+            <b-col>
                 <p><b-form-input type="text" placeholder="Student's Name"></b-form-input></p>
-            </div>
-            <div class="col">
+            </b-col>
+            <b-col>
                 <p>Class #: <b-form-input type="text" placeholder="Class Number"></b-form-input></p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
+            </b-col>
+        </b-row>
+        <b-row>
+            <b-col>
                 <h5>Builder's Theme: <b-form-input type="text" placeholder="Theme"></b-form-input></h5>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
+            </b-col>
+        </b-row>
+        <b-row>
+            <b-col>
                 <p>Subject</p>
-            </div>
-            <div class="col">
+            </b-col>
+            <b-col>
                 <p>Monday</p>
-            </div>
-            <div class="col">
+            </b-col>
+            <b-col>
                 <p>Tuesday</p>
-            </div>
-            <div class="col">
+            </b-col>
+            <b-col>
                 <p>Wednesday</p>
-            </div>
-            <div class="col">
+            </b-col>
+            <b-col>
                 <p>Thursday</p>
-            </div>
-            <div class="col">
+            </b-col>
+            <b-col>
                 <p>Friday</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
+            </b-col>
+        </b-row>
+        <b-row>
+            <b-col>
                 <p>Reading Group</p>
-            </div>
-            <div class="col">
+            </b-col>
+            <b-col>
                 <b-form-input type="text" placeholder="Lesson" label="Lesson: "></b-form-input>
-            </div>
-            <div class="col">
+            </b-col>
+            <b-col>
                 <b-form-input type="text" placeholder="Lesson" label="Lesson: "></b-form-input>
-            </div>
-            <div class="col">
+            </b-col>
+            <b-col>
                 <b-form-input type="text" placeholder="Lesson" label="Lesson: "></b-form-input>
-            </div>
-            <div class="col">
+            </b-col>
+            <b-col>
                 <b-form-input type="text" placeholder="Lesson" label="Lesson: "></b-form-input>
-            </div>
-            <div class="col">
+            </b-col>
+            <b-col>
                 <b-form-input type="text" placeholder="Lesson" label="Lesson: "></b-form-input>
-            </div>
-        </div>
-    </div>
+            </b-col>
+        </b-row>
+    </b-container>
 </template>
 
 <script>

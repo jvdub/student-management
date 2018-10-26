@@ -2,21 +2,21 @@ const Sequelize  = require('sequelize');
 const Op = Sequelize.Op;
 const sqlz = require('./db');
 
-const Role = sqlz.define('role', {
+const Course = sqlz.define('course', {
     id: {
-        field: 'role_id',
+        field: 'course_id',
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false
     },
     name: {
-        field: 'name',
+        field: 'description',
         type: Sequelize.TEXT
     },
-    jurisdictionId: {
-        field: 'ref_jurisdiction_id',
-        type: Sequelize.INTEGER
+    abbreviation: {
+        field: 'abbreviation',
+        type: Sequelize.TEXT
     }
 }, {
     timestamps: false,
@@ -25,10 +25,10 @@ const Role = sqlz.define('role', {
 
 // If testing locally, you may want to include `{ force: true }` in the call to `sync`.
 // This option will wipe the DB and recreate it every time.
-Role.sync().then(() => {
-    console.log('Role Table successfully created/updated.');
+Course.sync().then(() => {
+    console.log('Course Table successfully created/updated.');
 }).catch(() => {
-    console.log('Error syncing Role table.');
+    console.log('Error syncing Course table.');
 });
 
-module.exports = Role;
+module.exports = Course;

@@ -7,6 +7,7 @@ import LearningPlanList from '../views/LearningPlanList';
 import CreateLearningPlan from '../views/CreateLearningPlan';
 import Users from '../views/Users';
 import User from '../views/User';
+import Courses from '../views/Courses';
 import CreateUser from '../views/CreateUser';
 
 Vue.use(Router);
@@ -59,6 +60,14 @@ let index = new Router({
             path: '/user/:id',
             name: 'user',
             component: User,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/courses',
+            name: 'courses',
+            component: Courses,
             meta: {
                 requiresAuth: true
             }
