@@ -5,8 +5,8 @@
                 <img src="https://www.americanprep.org/wp-content/uploads/2014/06/aps_logo1.png"/>
             </b-col>
             <b-col>
-                <h1><b-form-input type="text" placeholder="Grade"></b-form-input> Learning Plan</h1>
-                <h4>{{teacher}}</h4>
+                <h1>{{ grade }} Learning Plan</h1>
+                <h4>{{ teacher }}</h4>
             </b-col>
             <b-col>
                 <p>Week of:</p>
@@ -70,29 +70,29 @@
 </template>
 
 <script>
-// import axios from 'axios';
-// import Vue from 'vue';
-//
-// const client = axios.create({
-//     baseURL: 'http://localhost:3000/',
-//     json: true
-// });
-//
-// async function execute(method, resource, data) {
-//     // inject the accessToken for each request
-//     let accessToken = await Vue.prototype.$auth.getAccessToken();
-//
-//     return client({
-//         method,
-//         url: resource,
-//         data,
-//         headers: {
-//             Authorization: `Bearer ${accessToken}`
-//         }
-//     }).then(req => {
-//         return req.data;
-//     });
-// }
+import axios from 'axios';
+import Vue from 'vue';
+
+const client = axios.create({
+    baseURL: 'http://localhost:3000/',
+    json: true
+});
+
+async function execute(method, resource, data) {
+    // inject the accessToken for each request
+    let accessToken = await Vue.prototype.$auth.getAccessToken();
+
+    return client({
+        method,
+        url: resource,
+        data,
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        }
+    }).then(req => {
+        return req.data;
+    });
+}
 
 export default {
     name: 'CreateLearningPlan',

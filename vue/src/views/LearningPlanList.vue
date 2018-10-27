@@ -1,6 +1,6 @@
 <template>
     <div class="learning-plan-list">
-        <b-button to="/learning-plan/new">Create New Learning Plan</b-button>
+        <b-button :to="`/course/${this.$route.params.id}/learning-plan/new`">Create New Learning Plan Template</b-button>
         <b-table striped hover :items="items"></b-table>
     </div>
 </template>

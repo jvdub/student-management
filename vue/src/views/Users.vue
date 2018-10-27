@@ -1,10 +1,10 @@
 <template>
-    <div class="users">
+    <b-container>
         <b-button to="/create-user">Create New User</b-button>
         <b-list-group>
             <b-list-group-item v-for="user in users" v-bind:href="`/user/${user.id}`">{{`${user.lastName}, ${user.firstName}`}}</b-list-group-item>
         </b-list-group>
-    </div>
+    </b-container>
 </template>
 
 <script>
@@ -50,7 +50,7 @@ export default {
         async refreshUsers() {
             let userData = await getUsers();
 
-            userData.sort((a, b) => a.lastName < b.lastName);
+            userData.sort((a, b) => a.lastName > b.lastName);
 
             this.users = userData.map((user) => {
                 return {
