@@ -7,9 +7,10 @@ This open source project has been created to give education systems an open sour
 1. Set up a [Postgresql](https://www.postgresql.org/) DB (Download [here](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads))
 2. Create a Database called `student_management`
 3. Create a user with the info found in [`./orm/db.js`](https://github.gatech.edu/jtvw3/student-management/blob/master/orm/db.js)
-4. `npm install`
-5. `npm run`
-6. [http://localhost:3000/](http://localhost:3000/)
+4. `npm install` in the root directory and in the `vue` directory.
+5. In the root directory: `npm run start`
+6. In the `vue` directory: `npm run build`
+7. [http://localhost:3000/](http://localhost:3000/)
 
 _Note: The port can be changed through the use of environment variables. Simply set the `PORT` variable._ 
 
