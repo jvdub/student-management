@@ -3,22 +3,7 @@ const OrganizationPersonRole = require('../orm/OrganizationPersonRole');
 const Person = require('../orm/Person');
 const Role = require('../orm/Role');
 const okta = require('../okta');
-
-function cloneObject(obj) {
-    let clone = {};
-
-    for (let i in obj) {
-        if (obj.hasOwnProperty(i)) {
-            if (obj[i] && typeof(obj[i]) === 'object') {
-                clone[i] = cloneObject(obj[i]);
-            } else {
-                clone[i] = obj[i];
-            }
-        }
-    }
-
-    return clone;
-}
+const utils = require('../utils');
 
 module.exports = {
     async getAllUsers(res) {
@@ -48,7 +33,7 @@ module.exports = {
     },
     async createNewUser(req, res) {
         const reqLoginId = req.jwt.claims.sub;
-        const requestBody = cloneObject(req.body);
+        const requestBody = utils.cloneObject(req.body);
         let orgPersonRole;
 
         try {
@@ -68,7 +53,7 @@ module.exports = {
             }
 
             if (!auth) {
-                const pData = cloneObject(requestBody);
+                const pData = utils.cloneObject(requestBody);
 
                 let person;
 
