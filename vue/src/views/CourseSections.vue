@@ -1,7 +1,9 @@
 <template>
     <b-container>
         <h1>{{ course.name }}</h1>
-        <b-button :href="`/course/${this.$route.params.courseId}/section/${this.$route.params.sectionId}/learning-plans/templates`">View Learning Plan Templates</b-button>
+        <b-list-group>
+            <b-list-group-item v-for="section in sections" v-bind:href="`/course/${courseId}/section/${section.id}`">{{ section.id }} - {{ section.teacher.lastName }}</b-list-group-item>
+        </b-list-group>
     </b-container>
 </template>
 
@@ -31,22 +33,29 @@ async function execute(method, resource, data) {
 }
 
 async function getCourse() {
-    return execute('get', `/api/course/${this.$route.params.courseId}`);
+    return execute('get', `/api/course/${this.courseId}`);
+}
+
+async function getSections() {
+    return execute('get', `/api/course/${this.courseId}/sections`);
 }
 
 export default {
-    name: 'CourseSection',
+    name: 'CourseSections',
     data() {
         return {
-            course: {}
+            course: {},
+            sections: [],
+            courseId: this.$route.params.id
         };
     },
     async created() {
-        this.refreshCourse();
+        this.refreshCourseAndSections();
     },
     methods: {
-        async refreshCourse() {
+        async refreshCourseAndSections() {
             this.course = await getCourse.apply(this);
+            this.sections = await getSections.apply(this);
         }
     }
 };

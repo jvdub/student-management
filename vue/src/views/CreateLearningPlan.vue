@@ -86,7 +86,8 @@ export default {
     components: { LearningPlanSubject },
     data() {
         return {
-            courseId: this.$route.params.id,
+            courseId: this.$route.params.courseId,
+            sectionId: this.$route.params.sectionId,
             plan: {
                 grade: 'Kindergarten',
                 teacher: 'Mrs. Doe',

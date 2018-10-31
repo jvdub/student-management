@@ -1,6 +1,6 @@
 <template>
     <div class="learning-plan-list">
-        <b-button :to="`/course/${this.$route.params.id}/learning-plan/new`">Create New Learning Plan Template</b-button>
+        <b-button :to="`/course/${courseId}/section/${sectionId}/learning-plan/new`">Create New Learning Plan Template</b-button>
         <b-table striped hover :items="items"></b-table>
     </div>
 </template>
@@ -10,6 +10,8 @@ export default {
     name: 'LearningPlanList',
     data() {
         return {
+            courseId: this.$route.params.courseId,
+            sectionId: this.$route.params.sectionId,
             items: [
                 {
                     week: 1,

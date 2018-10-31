@@ -8,7 +8,8 @@ import CreateLearningPlan from '../views/CreateLearningPlan';
 import Users from '../views/Users';
 import User from '../views/User';
 import Courses from '../views/Courses';
-import Course from '../views/CourseSection';
+import CourseSections from '../views/CourseSections';
+import CourseSection from '../views/CourseSection';
 import CreateUser from '../views/CreateUser';
 
 Vue.use(Router);
@@ -34,7 +35,7 @@ let index = new Router({
             component: Auth.handleCallback()
         },
         {
-            path: '/course/:id/learning-plans/templates',
+            path: '/course/:courseId/section/:sectionId/learning-plans/templates',
             name: 'learningplanlist',
             component: LearningPlanList,
             meta: {
@@ -42,7 +43,7 @@ let index = new Router({
             }
         },
         {
-            path: '/course/:id/learning-plan/new',
+            path: '/course/:courseId/section/:sectionId/learning-plan/new',
             name: 'createlearningplan',
             component: CreateLearningPlan,
             meta: {
@@ -75,8 +76,16 @@ let index = new Router({
         },
         {
             path: '/course/:id',
-            name: 'course',
-            component: Course,
+            name: 'coursesections',
+            component: CourseSections,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/course/:courseId/section/:sectionId',
+            name: 'coursesection',
+            component: CourseSection,
             meta: {
                 requiresAuth: true
             }
