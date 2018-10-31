@@ -1,6 +1,6 @@
 const Sequelize  = require('sequelize');
 const Op = Sequelize.Op;
-const LearningPlanSubject = require('LearningPlanSubject');
+const LearningPlanSubject = require('./LearningPlanSubject');
 const sqlz = require('./db');
 
 const LearningPlan = sqlz.define('learning_plan', {

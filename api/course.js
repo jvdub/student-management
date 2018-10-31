@@ -12,5 +12,7 @@ module.exports = {
     },
     addNewLearningPlan(courseId, req, res) {
         const plan = utils.cloneObject(req.body);
+
+        res.send(LearningPlan.create(plan));
     }
 };
