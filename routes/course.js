@@ -19,8 +19,12 @@ router.get('/api/course/:courseId/sections/:sectionId/teacher', okta.authenticat
     course.getInstructorForSection(req.params.courseId, req.params.sectionId, res);
 });
 
+router.get('/api/course/:courseId/sections/:sectionId/learning-plan', okta.authenticationRequired, function (req, res) {
+    course.getLearningPlans(req.params.sectionId, res);
+});
+
 router.post('/api/course/:courseId/sections/:sectionId/learning-plan', okta.authenticationRequired, function (req, res) {
-    course.addNewLearningPlan(req.params.courseId, req.params.courseId, req, res);
+    course.addNewLearningPlan(req.params.courseId, req.params.sectionId, req, res);
 });
 
 module.exports = router;

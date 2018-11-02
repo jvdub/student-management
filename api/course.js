@@ -6,41 +6,49 @@ const LearningPlan = require('../orm/LearningPlan');
 const LearningPlanSubject = require('../orm/LearningPlanSubject');
 
 module.exports = {
-    getAllCourses(res) {
-        Course.findAll({
+    async getAllCourses(res) {
+        let courses = await Course.findAll({
             attributes: ['id', 'name', 'abbreviation']
-        }).then((courses) => {
-            res.send(courses);
         });
+
+        res.send(courses);
     },
-    getCourse(courseId, res) {
-        Course.findById(courseId).then((course) => {
-            res.send(course);
-        });
+    async getCourse(courseId, res) {
+        let course = await Course.findById(courseId);
+        res.send(course);
     },
-    getCourseSections(courseId, res) {
-        CourseSection.findAll({
+    async getCourseSections(courseId, res) {
+        let sections = await CourseSection.findAll({
             where: {
                 course: courseId
             }
-        }).then((sections) => {
-            res.send(sections);
         });
+
+        res.send(sections);
     },
-    getInstructorForSection(courseId, sectionId, res) {
-        CourseSection.findOne({
+    async getInstructorForSection(courseId, sectionId, res) {
+        let section = await CourseSection.findOne({
             where: {
                 course: courseId,
                 id: sectionId
             }
-        }).then((section) => {
-            Person.findById(section.teacher).then((teacher) => {
-                res.send(teacher);
-            });
         });
+
+        let teacher = await Person.findById(section.teacher);
+
+        res.send(teacher);
+    },
+    async getLearningPlans(sectionId, res) {
+        let plans = await LearningPlan.findAll({
+            where: {
+                courseSectionId: sectionId
+            }
+        });
+
+        res.send(plans);
     },
     async addNewLearningPlan(courseId, sectionId, req, res) {
-        let body = JSON.parse(JSON.stringify(req.body));
+        let body = utils.cloneObject(req.body);
         let plan = {
             courseSectionId: sectionId,
             theme: body.theme,
@@ -48,11 +56,11 @@ module.exports = {
             weekNumber: body.weekNumber,
             classNumber: body.classNumber
         };
-        let subjectsToSave = JSON.parse(JSON.stringify(body.subjects));
+        let subjectsToSave = utils.cloneObject(body.subjects);
         let savedPlan = await LearningPlan.create(plan);
 
         for (let s of subjectsToSave) {
-            let p = JSON.parse(JSON.stringify(savedPlan));
+            let p = utils.cloneObject(savedPlan);
             s.learningPlanId = p.id;
 
             await LearningPlanSubject.create(s);
