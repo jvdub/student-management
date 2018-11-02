@@ -15,8 +15,8 @@ const LearningPlan = sqlz.define('learning_plan', {
         field: 'course_section_id',
         type: Sequelize.INTEGER
     },
-    name: {
-        field: 'name',
+    theme: {
+        field: 'theme',
         type: Sequelize.TEXT
     },
     weekDates: {
@@ -27,16 +27,16 @@ const LearningPlan = sqlz.define('learning_plan', {
         field: 'week_number',
         type: Sequelize.INTEGER
     },
-    theme: {
-        field: 'theme',
-        type: Sequelize.TEXT
+    classNumber: {
+        field: 'class_number',
+        type: Sequelize.INTEGER
     }
 }, {
     timestamps: false,
     freezeTableName: true
 });
 
-LearningPlan.hasMany(LearningPlanSubject, { as: 'Subjects' });
+LearningPlan.hasMany(LearningPlanSubject, { as: 'subjects' });
 
 // If testing locally, you may want to include `{ force: true }` in the call to `sync`.
 // This option will wipe the DB and recreate it every time.

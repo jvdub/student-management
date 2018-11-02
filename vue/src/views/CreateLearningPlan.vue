@@ -6,8 +6,8 @@
                     <img src="https://www.americanprep.org/wp-content/uploads/2014/06/aps_logo1.png"/>
                 </b-col>
                 <b-col>
-                    <h1>{{ plan.grade }} Learning Plan</h1>
-                    <h4>{{ plan.teacher }}</h4>
+                    <h1>{{ course }} Learning Plan</h1>
+                    <h4>{{ teacher }}</h4>
                 </b-col>
                 <b-col>
                     <p>Week of:</p>
@@ -18,12 +18,12 @@
             </b-row>
             <b-row>
                 <b-col>
-                    <p>Class #: <b-form-input type="text" placeholder="Class Number"></b-form-input></p>
+                    <p>Class #: <b-form-input type="text" placeholder="Class Number" v-model="plan.classNumber"></b-form-input></p>
                 </b-col>
             </b-row>
             <b-row>
                 <b-col>
-                    <h5>Builder's Theme: <b-form-input type="text" placeholder="Theme"></b-form-input></h5>
+                    <h5>Builder's Theme: <b-form-input type="text" placeholder="Theme" v-model="plan.theme"></b-form-input></h5>
                 </b-col>
             </b-row>
             <b-row>
@@ -81,6 +81,14 @@ async function execute(method, resource, data) {
     });
 }
 
+async function getInstructor() {
+    return execute('get', `/api/course/${this.courseId}/sections/${this.sectionId}/teacher`);
+}
+
+async function getCourse() {
+    return execute('get', `/api/course/${this.courseId}`);
+}
+
 export default {
     name: 'CreateLearningPlan',
     components: { LearningPlanSubject },
@@ -88,20 +96,35 @@ export default {
         return {
             courseId: this.$route.params.courseId,
             sectionId: this.$route.params.sectionId,
+            course: '',
+            teacher: '',
             plan: {
-                grade: 'Kindergarten',
-                teacher: 'Mrs. Doe',
                 weekNumber: 1,
                 weekDates: 'Sept 10-14',
                 classNumber: 1,
-                theme: 'ENTHUSIASM',
+                theme: '',
                 subjects: []
             }
         };
     },
+    async created() {
+        this.refreshInstructorName();
+        this.refreshCourseName();
+    },
     methods: {
+        async refreshInstructorName() {
+            let teacher = await getInstructor.apply(this);
+
+            let title = teacher.gender === 1 ? 'Mr.' : 'Mrs.';
+            this.teacher = `${title} ${teacher.lastName}`;
+        },
+        async refreshCourseName() {
+            let course = await getCourse.apply(this);
+
+            this.course = course.name;
+        },
         submit() {
-            return execute('post', `/api/course/${this.courseId}/learning-plan`, this.plan);
+            return execute('post', `/api/course/${this.courseId}/sections/${this.sectionId}/learning-plan`, this.plan);
         },
         addSubject() {
             this.plan.subjects.push({
