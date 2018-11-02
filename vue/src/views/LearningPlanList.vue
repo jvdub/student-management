@@ -1,6 +1,6 @@
 <template>
     <b-container>
-        <b-button :to="`/course/${courseId}/section/${sectionId}/learning-plan/new`">Create New Learning Plan Template</b-button>
+        <b-button :to="`/course/${courseId}/section/${sectionId}/learning-plan/new`" variant="primary">Create New Learning Plan Template</b-button>
         <b-table striped hover :items="plans"></b-table>
     </b-container>
 </template>

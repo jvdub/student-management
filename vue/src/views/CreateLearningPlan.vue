@@ -27,7 +27,7 @@
                 </b-col>
             </b-row>
             <b-row>
-                <b-button @click="addSubject">Add Subject</b-button>
+                <b-button @click="addSubject" variant="primary">Add Subject</b-button>
             </b-row>
             <b-row>
                 <b-col>
@@ -50,7 +50,7 @@
                 </b-col>
             </b-row>
             <learning-plan-subject v-for="subject of plan.subjects" :subject.sync="subject"></learning-plan-subject>
-            <b-button type="submit">Submit</b-button>
+            <b-button type="submit" variant="success">Submit</b-button>
         </b-form>
     </b-container>
 </template>
