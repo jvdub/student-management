@@ -10,7 +10,7 @@ const CourseSection = sqlz.define('course_section', {
         autoIncrement: true,
         allowNull: false
     },
-    course: {
+    courseId: {
         field: 'course_id',
         type: Sequelize.INTEGER
     },

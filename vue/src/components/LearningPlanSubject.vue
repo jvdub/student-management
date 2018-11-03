@@ -3,7 +3,10 @@
         <b-col>
             <b-button v-if="subject.edit" @click="toggleEdit" size="sm" class="save-btn">💾</b-button>
             <b-form-input v-if="subject.edit" type="text" placeholder="Subject" v-model="subject.name"></b-form-input>
-            <p v-if="!subject.edit"><b-button @click="toggleEdit" size="sm">📝</b-button>{{ subject.name }}</p>
+            <p>
+                <b-button v-if="!subject.edit && editable" @click="toggleEdit" size="sm">📝</b-button>
+                <span v-if="!subject.edit">{{ subject.name }}</span>
+            </p>
         </b-col>
         <b-col>
             <b-form-input v-if="subject.edit" type="text" placeholder="Lesson" v-model="subject.monday"></b-form-input>
@@ -32,6 +35,7 @@
 export default {
     name: 'LearningPlanSubject',
     props: {
+        editable: true,
         subject: {
             name: '',
             monday: '',

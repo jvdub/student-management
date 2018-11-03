@@ -4,6 +4,7 @@ import Home from '../views/Home.vue';
 import Auth from '@okta/okta-vue';
 import NotFoundComponent from '../views/NotFound.vue';
 import LearningPlanList from '../views/LearningPlanList';
+import LearningPlan from '../views/LearningPlan';
 import CreateLearningPlan from '../views/CreateLearningPlan';
 import Users from '../views/Users';
 import User from '../views/User';
@@ -46,6 +47,14 @@ let index = new Router({
             path: '/course/:courseId/section/:sectionId/learning-plan/new',
             name: 'createlearningplan',
             component: CreateLearningPlan,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/course/:courseId/section/:sectionId/learning-plan/:learningPlanId',
+            name: 'learningplan',
+            component: LearningPlan,
             meta: {
                 requiresAuth: true
             }

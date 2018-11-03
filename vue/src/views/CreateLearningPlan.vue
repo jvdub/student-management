@@ -49,7 +49,7 @@
                     <p>Friday</p>
                 </b-col>
             </b-row>
-            <learning-plan-subject v-for="subject of plan.subjects" :subject.sync="subject"></learning-plan-subject>
+            <learning-plan-subject v-for="subject of plan.subjects" :subject.sync="subject" editable="true"></learning-plan-subject>
             <b-button type="submit" variant="success">Submit</b-button>
         </b-form>
     </b-container>

@@ -1,6 +1,7 @@
 const Sequelize  = require('sequelize');
 const Op = Sequelize.Op;
 const sqlz = require('./db');
+const CourseSection = require('./CourseSection');
 
 const Course = sqlz.define('course', {
     id: {
@@ -22,6 +23,8 @@ const Course = sqlz.define('course', {
     timestamps: false,
     freezeTableName: true
 });
+
+Course.hasMany(CourseSection, { as: 'sections' });
 
 // If testing locally, you may want to include `{ force: true }` in the call to `sync`.
 // This option will wipe the DB and recreate it every time.

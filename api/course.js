@@ -20,7 +20,7 @@ module.exports = {
     async getCourseSections(courseId, res) {
         let sections = await CourseSection.findAll({
             where: {
-                course: courseId
+                courseId: courseId
             }
         });
 
@@ -29,7 +29,7 @@ module.exports = {
     async getInstructorForSection(courseId, sectionId, res) {
         let section = await CourseSection.findOne({
             where: {
-                course: courseId,
+                courseId: courseId,
                 id: sectionId
             }
         });
@@ -46,6 +46,11 @@ module.exports = {
         });
 
         res.send(plans);
+    },
+    async getLearningPlan(learningPlanId, res) {
+        let plan = await LearningPlan.findById(learningPlanId);
+
+        res.send(plan);
     },
     async addNewLearningPlan(courseId, sectionId, req, res) {
         let body = utils.cloneObject(req.body);

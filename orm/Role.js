@@ -1,6 +1,7 @@
 const Sequelize  = require('sequelize');
 const Op = Sequelize.Op;
 const sqlz = require('./db');
+const OrganizationPersonRole = require('./OrganizationPersonRole');
 
 const Role = sqlz.define('role', {
     id: {
@@ -22,6 +23,8 @@ const Role = sqlz.define('role', {
     timestamps: false,
     freezeTableName: true
 });
+
+Role.hasOne(OrganizationPersonRole, { foreignKey: 'role_id' });
 
 // If testing locally, you may want to include `{ force: true }` in the call to `sync`.
 // This option will wipe the DB and recreate it every time.

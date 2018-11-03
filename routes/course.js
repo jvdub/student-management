@@ -23,6 +23,10 @@ router.get('/api/course/:courseId/sections/:sectionId/learning-plan', okta.authe
     course.getLearningPlans(req.params.sectionId, res);
 });
 
+router.get('/api/course/:courseId/sections/:sectionId/learning-plan/:learningPlanId', okta.authenticationRequired, function (req, res) {
+    course.getLearningPlan(req.params.learningPlanId, res);
+});
+
 router.post('/api/course/:courseId/sections/:sectionId/learning-plan', okta.authenticationRequired, function (req, res) {
     course.addNewLearningPlan(req.params.courseId, req.params.sectionId, req, res);
 });

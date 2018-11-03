@@ -30,6 +30,14 @@ const LearningPlan = sqlz.define('learning_plan', {
     classNumber: {
         field: 'class_number',
         type: Sequelize.INTEGER
+    },
+    effectiveDate: {
+        field: 'effective_date',
+        type: Sequelize.DATE
+    },
+    expiryDate: {
+        field: 'expiry_date',
+        type: Sequelize.DATE
     }
 }, {
     timestamps: false,
