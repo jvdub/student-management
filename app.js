@@ -33,6 +33,9 @@ app.use(t);
 const user = require('./routes/user');
 app.use(user);
 
+const student = require('./routes/student');
+app.use(student);
+
 const course = require('./routes/course');
 app.use(course);
 

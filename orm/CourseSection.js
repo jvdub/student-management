@@ -14,7 +14,7 @@ const CourseSection = sqlz.define('course_section', {
         field: 'course_id',
         type: Sequelize.INTEGER
     },
-    teacher: {
+    teacherId: {
         field: 'teacher_id',
         type: Sequelize.INTEGER
     }

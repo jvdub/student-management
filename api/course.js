@@ -4,6 +4,7 @@ const Person = require('../orm/Person');
 const utils = require('../utils');
 const LearningPlan = require('../orm/LearningPlan');
 const LearningPlanSubject = require('../orm/LearningPlanSubject');
+const StudentCourseSection = require('../orm/StudentCourseSection');
 
 module.exports = {
     async getAllCourses(res) {
@@ -34,9 +35,35 @@ module.exports = {
             }
         });
 
-        let teacher = await Person.findById(section.teacher);
+        let teacher = await Person.findById(section.teacherId);
 
         res.send(teacher);
+    },
+    async getStudentsForSection(courseId, sectionId, res) {
+        let studentIds = await StudentCourseSection.findAll({
+            attributes: [ 'studentId' ],
+            where: {
+                section_id: sectionId
+            }
+        });
+
+        console.log('======================================');
+        console.log(studentIds);
+        console.log('======================================');
+
+        let students = await Person.findAll({
+            where: {
+                id: {
+                    [Op.in]: studentIds
+                }
+            }
+        });
+
+        console.log('======================================');
+        console.log(students);
+        console.log('======================================');
+
+        res.send(students);
     },
     async getLearningPlans(sectionId, res) {
         let plans = await LearningPlan.findAll({
