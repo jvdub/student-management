@@ -43,7 +43,7 @@
                 <p>Friday</p>
             </b-col>
         </b-row>
-        <learning-plan-subject editable="false" v-for="subject of plan.subjects" v-bind:subject="subject"></learning-plan-subject>
+        <learning-plan-subject v-for="subject of plan.subjects" :subject.sync="subject" v-bind:editable="false"></learning-plan-subject>
     </b-container>
 </template>
 
@@ -61,6 +61,10 @@ async function getCourse() {
 
 async function getLearningPlan() {
     return execute('get', `/api/course/${this.courseId}/sections/${this.sectionId}/learning-plan/${this.learningPlanId}`);
+}
+
+async function getLearningPlanSubjects() {
+    return execute('get', `/api/course/${this.courseId}/sections/${this.sectionId}/learning-plan/${this.learningPlanId}/subjects`);
 }
 
 export default {
@@ -89,7 +93,16 @@ export default {
     },
     methods: {
         async refreshLearningPlan() {
-            this.plan = await getLearningPlan.apply(this);
+            let plan = await getLearningPlan.apply(this);
+            plan.subjects = [];
+            this.plan = plan;
+
+            let subjects = await getLearningPlanSubjects.apply(this);
+
+            for (let s of subjects) {
+                s.edit = false;
+                this.plan.subjects.push(s);
+            }
         },
         async refreshInstructorName() {
             let teacher = await getInstructor.apply(this);

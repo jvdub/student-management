@@ -52,6 +52,15 @@ module.exports = {
 
         res.send(plan);
     },
+    async getLearningPlanSubjects(learningPlanId, res) {
+        let subjects = await LearningPlanSubject.findAll({
+            where: {
+                learningPlanId: learningPlanId
+            }
+        });
+
+        res.send(subjects);
+    },
     async addNewLearningPlan(courseId, sectionId, req, res) {
         let body = utils.cloneObject(req.body);
         let plan = {
