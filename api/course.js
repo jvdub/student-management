@@ -81,5 +81,14 @@ module.exports = {
         }
 
         res.send(savedPlan);
+    },
+    async activateLearningPlan(learningPlanId, newPlan, res) {
+        let plan = await LearningPlan.findById(learningPlanId);
+        plan.set('effectiveDate', newPlan.effectiveDate);
+        plan.set('expiryDate', newPlan.expiryDate);
+
+        plan = await plan.save();
+
+        res.send(plan);
     }
 };

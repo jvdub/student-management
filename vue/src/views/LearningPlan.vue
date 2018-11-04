@@ -17,6 +17,9 @@
             <b-col>
                 <p>Class #: {{ plan.classNumber }}</p>
             </b-col>
+            <b-col>
+                <b-button :variant="'success'" v-b-modal.activatePlan>Activate Plan</b-button>
+            </b-col>
         </b-row>
         <b-row>
             <b-col>
@@ -44,6 +47,12 @@
             </b-col>
         </b-row>
         <learning-plan-subject v-for="subject of plan.subjects" :subject.sync="subject" v-bind:editable="false"></learning-plan-subject>
+        <b-modal id="activatePlan" title="Activate Plan" @ok="activateLearningPlan">
+            <label v-bind:for="'effective-date'">Effective Date</label>
+            <b-form-input type="date" v-bind:id="'effective-date'" v-model="plan.effectiveDate"></b-form-input>
+            <label v-bind:for="'expiry-date'">Expiry Date</label>
+            <b-form-input type="date" v-bind:id="'expiry-date'" v-model="plan.expiryDate"></b-form-input>
+        </b-modal>
     </b-container>
 </template>
 
@@ -67,6 +76,10 @@ async function getLearningPlanSubjects() {
     return execute('get', `/api/course/${this.courseId}/sections/${this.sectionId}/learning-plan/${this.learningPlanId}/subjects`);
 }
 
+async function sendActivateLearningPlan(data) {
+    return execute('put', `/api/course/${this.courseId}/sections/${this.sectionId}/learning-plan/${this.learningPlanId}/activate`, data);
+}
+
 export default {
     name: 'LearningPlan',
     components: { LearningPlanSubject },
@@ -78,11 +91,14 @@ export default {
             course: '',
             teacher: '',
             plan: {
+                id: '',
                 weekNumber: '',
                 weekDates: '',
                 classNumber: '',
                 theme: '',
-                subjects: []
+                subjects: [],
+                effectiveDate: null,
+                expiryDate: null
             }
         };
     },
@@ -114,6 +130,17 @@ export default {
             let course = await getCourse.apply(this);
 
             this.course = course.name;
+        },
+        async activateLearningPlan() {
+            await sendActivateLearningPlan.call(this, {
+                id: this.plan.id,
+                weekNumber: this.plan.weekNumber,
+                weekDates: this.plan.weekDates,
+                classNumber: this.plan.classNumber,
+                theme: this.plan.theme,
+                effectiveDate: this.plan.effectiveDate,
+                expiryDate: this.plan.expiryDate
+            });
         }
     }
 };
