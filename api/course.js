@@ -47,10 +47,6 @@ module.exports = {
             }
         });
 
-        console.log('======================================');
-        console.log(studentIds);
-        console.log('======================================');
-
         let students = await Person.findAll({
             where: {
                 id: {
@@ -58,10 +54,6 @@ module.exports = {
                 }
             }
         });
-
-        console.log('======================================');
-        console.log(students);
-        console.log('======================================');
 
         res.send(students);
     },
@@ -117,5 +109,24 @@ module.exports = {
         plan = await plan.save();
 
         res.send(plan);
+    },
+    async getStudentsInSection(courseSectionId, res) {
+        let students = await StudentCourseSection.findAll({
+            where: {
+                courseSectionId: courseSectionId
+            }
+        });
+
+        res.send(students);
+    },
+    async addStudentToSection(studentIdToAdd, courseSectionId, res) {
+        let studentSection = {
+            studentId: studentIdToAdd,
+            courseSectionId: courseSectionId
+        };
+
+        let updatedStudentSection = await StudentCourseSection.create(studentSection);
+
+        getStudentsInSection(updatedStudentSection.courseSectionId, res);
     }
 };

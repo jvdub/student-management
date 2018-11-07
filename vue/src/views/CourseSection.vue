@@ -5,7 +5,7 @@
         <h1>Students</h1>
         <b-btn v-b-modal.studentModal>Add Student</b-btn>
         <b-list-group>
-            <b-list-group-item>Test</b-list-group-item>
+            <b-list-group-item v-for="student of studentsInSection">{{ student.lastName }}, {{student.firstName}}</b-list-group-item>
         </b-list-group>
         <b-modal id="studentModal" title="Add Student" @ok="addStudent">
             <b-form-select v-model="selected" v-bind:options="students"></b-form-select>
@@ -24,6 +24,10 @@ async function getStudents() {
     return execute('get', '/api/students');
 }
 
+async function getStudentsInSection() {
+    return execute('get', `/api/course/${this.courseId}/section/${this.sectionId}/student`);
+}
+
 async function addStudentToSection(data) {
     return execute('post', `/api/course/${this.courseId}/section/${this.sectionId}/student`, data);
 }
@@ -35,19 +39,24 @@ export default {
             courseId: this.$route.params.courseId,
             sectionId: this.$route.params.sectionId,
             course: {},
+            studentsInSection: [],
             students: [],
             selected: ''
         };
     },
     async created() {
         this.refreshCourse();
-        this.refreshStudents();
+        this.refreshStudentsInSection();
+        this.refreshAllStudents();
     },
     methods: {
         async refreshCourse() {
             this.course = await getCourse.apply(this);
         },
-        async refreshStudents() {
+        async refreshStudentsInSection() {
+            this.studentsInSection = await getStudentsInSection();
+        },
+        async refreshAllStudents() {
             let students = await getStudents();
             students.sort((a, b) => a.lastName < b.lastName);
 
@@ -55,11 +64,11 @@ export default {
                 return {
                     value: s.id,
                     text: `${s.lastName}, ${s.firstName}`
-                }
+                };
             });
         },
         addStudent() {
-            addStudentToSection({
+            addStudentToSection.call(this, {
                 studentId: this.selected
             }).then((res) => {
                 console.log(res);

@@ -7,7 +7,7 @@ const StudentCourseSection = sqlz.define('student_course_section', {
         field: 'student_course_section_id',
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: false,
+        autoIncrement: true,
         allowNull: false
     },
     studentId: {
@@ -27,7 +27,7 @@ const StudentCourseSection = sqlz.define('student_course_section', {
 
 // If testing locally, you may want to include `{ force: true }` in the call to `sync`.
 // This option will wipe the DB and recreate it every time.
-StudentCourseSection.sync().then(() => {
+StudentCourseSection.sync({ force: true }).then(() => {
     console.log('StudentCourseSection Table successfully created/updated.');
 }).catch(() => {
     console.log('Error syncing StudentCourseSection table.');

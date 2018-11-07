@@ -48,8 +48,6 @@
         </b-row>
         <learning-plan-subject v-for="subject of plan.subjects" :subject.sync="subject" v-bind:editable="false"></learning-plan-subject>
         <b-modal id="activatePlan" title="Activate Plan" @ok="activateLearningPlan">
-            <label v-bind:for="'effective-date'">Effective Date</label>
-            <b-form-input type="date" v-bind:id="'effective-date'" v-model="plan.effectiveDate"></b-form-input>
             <label v-bind:for="'expiry-date'">Expiry Date</label>
             <b-form-input type="date" v-bind:id="'expiry-date'" v-model="plan.expiryDate"></b-form-input>
         </b-modal>
