@@ -18,7 +18,8 @@
                 <p>Class #: {{ plan.classNumber }}</p>
             </b-col>
             <b-col>
-                <b-button :variant="'success'" v-b-modal.activatePlan>Activate Plan</b-button>
+                <b-button v-if="!plan.expiryDate" :variant="'success'" v-b-modal.activatePlan>Activate Plan</b-button>
+                <b-button v-if="plan.expiryDate" :variant="'warning'" @click="cancelLearningPlan">Cancel Plan</b-button>
             </b-col>
         </b-row>
         <b-row>
@@ -78,6 +79,10 @@ async function sendActivateLearningPlan(data) {
     return execute('put', `/api/course/${this.courseId}/sections/${this.sectionId}/learning-plan/${this.learningPlanId}/activate`, data);
 }
 
+async function sendCancelLearningPlan() {
+    return execute('put', `/api/course/${this.courseId}/sections/${this.sectionId}/learning-plan/${this.learningPlanId}/cancel`);
+}
+
 export default {
     name: 'LearningPlan',
     components: { LearningPlanSubject },
@@ -95,7 +100,6 @@ export default {
                 classNumber: '',
                 theme: '',
                 subjects: [],
-                effectiveDate: null,
                 expiryDate: null
             }
         };
@@ -111,6 +115,9 @@ export default {
             plan.subjects = [];
             this.plan = plan;
 
+            this.refreshLearningPlanSubjects();
+        },
+        async refreshLearningPlanSubjects() {
             let subjects = await getLearningPlanSubjects.apply(this);
 
             for (let s of subjects) {
@@ -130,15 +137,21 @@ export default {
             this.course = course.name;
         },
         async activateLearningPlan() {
-            await sendActivateLearningPlan.call(this, {
+            let plan = await sendActivateLearningPlan.call(this, {
                 id: this.plan.id,
-                weekNumber: this.plan.weekNumber,
-                weekDates: this.plan.weekDates,
-                classNumber: this.plan.classNumber,
-                theme: this.plan.theme,
-                effectiveDate: this.plan.effectiveDate,
                 expiryDate: this.plan.expiryDate
             });
+            plan.subjects = [];
+            this.plan = plan;
+
+            this.refreshLearningPlanSubjects();
+        },
+        async cancelLearningPlan() {
+            let plan = await sendCancelLearningPlan.call(this);
+            plan.subjects = [];
+            this.plan = plan;
+
+            this.refreshLearningPlanSubjects();
         }
     }
 };

@@ -2,6 +2,7 @@ const Course = require('../orm/Course');
 const CourseSection = require('../orm/CourseSection');
 const Person = require('../orm/Person');
 const utils = require('../utils');
+const learningPlanUtils = require('../utils/learningPlanHelpers');
 const LearningPlan = require('../orm/LearningPlan');
 const LearningPlanSubject = require('../orm/LearningPlanSubject');
 const StudentCourseSection = require('../orm/StudentCourseSection');
@@ -101,10 +102,17 @@ module.exports = {
 
         res.send(savedPlan);
     },
-    async activateLearningPlan(learningPlanId, newPlan, res) {
+    async activateLearningPlan(learningPlanId, expiryDate, res) {
         let plan = await LearningPlan.findById(learningPlanId);
-        plan.set('effectiveDate', newPlan.effectiveDate);
-        plan.set('expiryDate', newPlan.expiryDate);
+        plan = learningPlanUtils.updatePlanDates(plan, Date.now(), expiryDate);
+
+        plan = await plan.save();
+
+        res.send(plan);
+    },
+    async cancelLearningPlan(learningPlanId, res) {
+        let plan = await LearningPlan.findById(learningPlanId);
+        plan = learningPlanUtils.updatePlanDates(plan, null, null);
 
         plan = await plan.save();
 
@@ -120,12 +128,6 @@ module.exports = {
 
         let students = studentsWithSections.map((s) => s.get('Student'));
 
-        console.log('================================================================');
-        console.log(studentsWithSections);
-        console.log('================================================================');
-        console.log(students);
-        console.log('================================================================');
-
         res.send(students);
     },
     async addStudentToSection(sectionId, studentId, res) {
@@ -135,10 +137,6 @@ module.exports = {
         };
 
         let updatedStudentSection = await StudentCourseSection.create(studentSection);
-
-        console.log('================================================================');
-        console.log(updatedStudentSection);
-        console.log('================================================================');
 
         this.getStudentsInSection(updatedStudentSection.CourseSectionId, res);
     }
