@@ -1,6 +1,8 @@
 const Sequelize  = require('sequelize');
 const Op = Sequelize.Op;
 const sqlz = require('./db');
+const Person = require('./Person');
+const CourseSection = require('./CourseSection');
 
 const StudentCourseSection = sqlz.define('student_course_section', {
     id: {
@@ -9,25 +11,18 @@ const StudentCourseSection = sqlz.define('student_course_section', {
         primaryKey: true,
         autoIncrement: true,
         allowNull: false
-    },
-    studentId: {
-        field: 'student_id',
-        type: Sequelize.INTEGER,
-        allowNull: false
-    },
-    courseSectionId: {
-        field: 'course_section_id',
-        type: Sequelize.INTEGER,
-        allowNull: false
     }
 }, {
     timestamps: false,
     freezeTableName: true
 });
 
+StudentCourseSection.belongsTo(Person, { as: 'Student' });
+StudentCourseSection.belongsTo(CourseSection, { as: 'CourseSection' });
+
 // If testing locally, you may want to include `{ force: true }` in the call to `sync`.
 // This option will wipe the DB and recreate it every time.
-StudentCourseSection.sync({ force: true }).then(() => {
+StudentCourseSection.sync().then(() => {
     console.log('StudentCourseSection Table successfully created/updated.');
 }).catch(() => {
     console.log('Error syncing StudentCourseSection table.');

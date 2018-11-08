@@ -1,7 +1,7 @@
 <template>
     <b-container>
         <h1>{{ course.name }}</h1>
-        <b-button :href="`/course/${this.$route.params.courseId}/section/${this.$route.params.sectionId}/learning-plans/templates`">View Learning Plan Templates</b-button>
+        <b-button :href="`/course/${courseId}/section/${sectionId}/learning-plans/templates`">View Learning Plan Templates</b-button>
         <h1>Students</h1>
         <b-btn v-b-modal.studentModal>Add Student</b-btn>
         <b-list-group>
@@ -17,7 +17,7 @@
 import { execute } from '../http.js';
 
 async function getCourse() {
-    return execute('get', `/api/course/${this.$route.params.courseId}`);
+    return execute('get', `/api/course/${this.courseId}`);
 }
 
 async function getStudents() {
@@ -25,11 +25,11 @@ async function getStudents() {
 }
 
 async function getStudentsInSection() {
-    return execute('get', `/api/course/${this.courseId}/section/${this.sectionId}/student`);
+    return execute('get', `/api/course/${this.courseId}/sections/${this.sectionId}/student`);
 }
 
 async function addStudentToSection(data) {
-    return execute('post', `/api/course/${this.courseId}/section/${this.sectionId}/student`, data);
+    return execute('post', `/api/course/${this.courseId}/sections/${this.sectionId}/student`, data);
 }
 
 export default {
@@ -54,10 +54,11 @@ export default {
             this.course = await getCourse.apply(this);
         },
         async refreshStudentsInSection() {
-            this.studentsInSection = await getStudentsInSection();
+            this.studentsInSection = await getStudentsInSection.apply(this);
+            console.log(this.studentsInSection);
         },
         async refreshAllStudents() {
-            let students = await getStudents();
+            let students = await getStudents.apply(this);
             students.sort((a, b) => a.lastName < b.lastName);
 
             this.students = students.map((s) => {

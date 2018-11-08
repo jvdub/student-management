@@ -111,22 +111,35 @@ module.exports = {
         res.send(plan);
     },
     async getStudentsInSection(courseSectionId, res) {
-        let students = await StudentCourseSection.findAll({
+        let studentsWithSections = await StudentCourseSection.findAll({
             where: {
-                courseSectionId: courseSectionId
-            }
+                CourseSectionId: courseSectionId
+            },
+            include: [{ model: Person, as: 'Student' }]
         });
+
+        let students = studentsWithSections.map((s) => s.get('Student'));
+
+        console.log('================================================================');
+        console.log(studentsWithSections);
+        console.log('================================================================');
+        console.log(students);
+        console.log('================================================================');
 
         res.send(students);
     },
-    async addStudentToSection(studentIdToAdd, courseSectionId, res) {
+    async addStudentToSection(sectionId, studentId, res) {
         let studentSection = {
-            studentId: studentIdToAdd,
-            courseSectionId: courseSectionId
+            StudentId: studentId,
+            CourseSectionId: sectionId
         };
 
         let updatedStudentSection = await StudentCourseSection.create(studentSection);
 
-        getStudentsInSection(updatedStudentSection.courseSectionId, res);
+        console.log('================================================================');
+        console.log(updatedStudentSection);
+        console.log('================================================================');
+
+        this.getStudentsInSection(updatedStudentSection.CourseSectionId, res);
     }
 };

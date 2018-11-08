@@ -7,10 +7,6 @@ router.get('/api/courses/', okta.authenticationRequired, function(req, res) {
     course.getAllCourses(res);
 });
 
-router.get('/api/course/:id', okta.authenticationRequired, function(req, res) {
-    course.getCourse(req.params.id, res);
-});
-
 router.get('/api/course/:id/sections', okta.authenticationRequired, function(req, res) {
     course.getCourseSections(req.params.id, res);
 });
@@ -20,11 +16,11 @@ router.get('/api/course/:courseId/sections/:sectionId/teacher', okta.authenticat
 });
 
 router.get('/api/course/:courseId/sections/:sectionId/student', okta.authenticationRequired, function(req, res) {
-    course.getStudentsInSection(req.params.courseId, req.params.sectionId, res);
+    course.getStudentsInSection(+req.params.courseId, res);
 });
 
 router.post('/api/course/:courseId/sections/:sectionId/student', okta.authenticationRequired, function(req, res) {
-    course.addStudentToSection(req.params.courseId, req.params.sectionId, res);
+    course.addStudentToSection(+req.params.sectionId, +req.body.studentId, res);
 });
 
 router.post('/api/course/:courseId/sections/:sectionId/learning-plan', okta.authenticationRequired, function (req, res) {
@@ -45,6 +41,10 @@ router.get('/api/course/:courseId/sections/:sectionId/learning-plan/:learningPla
 
 router.put('/api/course/:courseId/sections/:sectionId/learning-plan/:learningPlanId/activate', okta.authenticationRequired, function (req, res) {
     course.activateLearningPlan(req.params.learningPlanId, req.body, res);
+});
+
+router.get('/api/course/:id', okta.authenticationRequired, function(req, res) {
+    course.getCourse(req.params.id, res);
 });
 
 module.exports = router;
