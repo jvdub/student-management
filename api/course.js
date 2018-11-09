@@ -6,11 +6,29 @@ const learningPlanUtils = require('../utils/learningPlanHelpers');
 const LearningPlan = require('../orm/LearningPlan');
 const LearningPlanSubject = require('../orm/LearningPlanSubject');
 const StudentCourseSection = require('../orm/StudentCourseSection');
+const StudentLearningPlan = require('../orm/StudentLearningPlan');
+
+async function getStudentsInCourseSections(courseSectionId) {
+    return await StudentCourseSection.findAll({
+        where: {
+            CourseSectionId: courseSectionId
+        },
+        include: [ { model: Person, as: 'Student' } ]
+    });
+}
+
+async function fetchLearningPlanSubjects(learningPlanId) {
+    return await LearningPlanSubject.findAll({
+        where: {
+            learningPlanId: learningPlanId
+        }
+    });
+}
 
 module.exports = {
     async getAllCourses(res) {
         let courses = await Course.findAll({
-            attributes: ['id', 'name', 'abbreviation']
+            attributes: [ 'id', 'name', 'abbreviation' ]
         });
 
         res.send(courses);
@@ -51,7 +69,7 @@ module.exports = {
         let students = await Person.findAll({
             where: {
                 id: {
-                    [Op.in]: studentIds
+                    [ Op.in ]: studentIds
                 }
             }
         });
@@ -73,11 +91,7 @@ module.exports = {
         res.send(plan);
     },
     async getLearningPlanSubjects(learningPlanId, res) {
-        let subjects = await LearningPlanSubject.findAll({
-            where: {
-                learningPlanId: learningPlanId
-            }
-        });
+        let subjects = await fetchLearningPlanSubjects(learningPlanId);
 
         res.send(subjects);
     },
@@ -108,6 +122,16 @@ module.exports = {
 
         plan = await plan.save();
 
+        let lpSubjects = await fetchLearningPlanSubjects('learningPlanId');
+        let subjects = learningPlanUtils.prepareSubjectsForStudentPlan(lpSubjects);
+        let students = await getStudentsInCourseSections(plan.get('courseSectionId'));
+
+        for (let student of students) {
+            let plan = learningPlanUtils.preparePlanForStudent(plan, student.get('id'), subjects);
+
+            StudentLearningPlan.save(plan);
+        }
+
         res.send(plan);
     },
     async cancelLearningPlan(learningPlanId, res) {
@@ -119,12 +143,7 @@ module.exports = {
         res.send(plan);
     },
     async getStudentsInSection(courseSectionId, res) {
-        let studentsWithSections = await StudentCourseSection.findAll({
-            where: {
-                CourseSectionId: courseSectionId
-            },
-            include: [{ model: Person, as: 'Student' }]
-        });
+        let studentsWithSections = await getStudentsInCourseSections(courseSectionId);
 
         let students = studentsWithSections.map((s) => s.get('Student'));
 
