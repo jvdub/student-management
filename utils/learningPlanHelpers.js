@@ -34,7 +34,7 @@ module.exports = {
     preparePlanForStudent(plan, studentId, subjects) {
         return {
             learningPlanId: plan.get('learningPlanId'),
-            studentId: student.get('id'),
+            studentId: studentId,
             sectionId: plan.get('courseSectionId'),
             weekNumber: plan.get('weekNumber'),
             weekDates: plan.get('weekDates'),

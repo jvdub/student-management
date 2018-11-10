@@ -122,14 +122,20 @@ module.exports = {
 
         plan = await plan.save();
 
-        let lpSubjects = await fetchLearningPlanSubjects('learningPlanId');
+        let lpSubjects = await fetchLearningPlanSubjects(plan.get('learningPlanId'));
         let subjects = learningPlanUtils.prepareSubjectsForStudentPlan(lpSubjects);
         let students = await getStudentsInCourseSections(plan.get('courseSectionId'));
 
         for (let student of students) {
-            let plan = learningPlanUtils.preparePlanForStudent(plan, student.get('id'), subjects);
+            let p = {
+                data: JSON.stringify(learningPlanUtils.preparePlanForStudent(plan, student.get('id'), subjects))
+            };
 
-            StudentLearningPlan.save(plan);
+            console.log('=======================================================================================');
+            console.log(p);
+            console.log('=======================================================================================');
+
+            let slp = await StudentLearningPlan.create(p);
         }
 
         res.send(plan);
