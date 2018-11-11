@@ -131,10 +131,6 @@ module.exports = {
                 data: JSON.stringify(learningPlanUtils.preparePlanForStudent(plan, student.get('id'), subjects))
             };
 
-            console.log('=======================================================================================');
-            console.log(p);
-            console.log('=======================================================================================');
-
             let slp = await StudentLearningPlan.create(p);
         }
 
