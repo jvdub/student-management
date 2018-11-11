@@ -12,6 +12,8 @@ import Courses from '../views/Courses';
 import CourseSections from '../views/CourseSections';
 import CourseSection from '../views/CourseSection';
 import CreateUser from '../views/CreateUser';
+import StudentCourseList from '../views/StudentCourseList';
+import ParentStudentList from '../views/ParentStudentList';
 
 Vue.use(Router);
 
@@ -103,6 +105,22 @@ let index = new Router({
             path: '/create-user',
             name: 'createuser',
             component: CreateUser,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/student/:studentId/courses',
+            name: 'studentCourseList',
+            component: StudentCourseList,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/parent/:parentId/students',
+            name: 'parentStudentList',
+            component: ParentStudentList,
             meta: {
                 requiresAuth: true
             }
