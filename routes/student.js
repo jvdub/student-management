@@ -7,4 +7,8 @@ router.get('/api/students', okta.authenticationRequired, function(req, res) {
     student.getAllStudents(res);
 });
 
+router.get('/api/student/:studentId/course/:courseId/section/:sectionId/learning-plan/active', okta.authenticationRequired, function(req, res) {
+    student.getActiveLearningPlan(+req.params.studentId, +req.params.courseId, +req.params.sectionId, res);
+});
+
 module.exports = router;

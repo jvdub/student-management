@@ -33,6 +33,11 @@ module.exports = {
 
         res.send(courses);
     },
+    async addCourse(newCourse) {
+        let savedCourse = await Course.create(newCourse);
+
+        res.send(savedCourse);
+    },
     async getCourse(courseId, res) {
         let course = await Course.findById(courseId);
         res.send(course);
@@ -128,6 +133,8 @@ module.exports = {
 
         for (let student of students) {
             let p = {
+                StudentId: student.get('id'),
+                learningPlanId: plan.get('id'),
                 data: JSON.stringify(learningPlanUtils.preparePlanForStudent(plan, student.get('id'), subjects))
             };
 

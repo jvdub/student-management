@@ -10,30 +10,35 @@ module.exports = {
                 name: lps.get('name'),
                 monday: {
                     lesson: lps.get('monday'),
-                    homework: false
+                    homework: false,
+                    completed: false
                 },
                 tuesday: {
                     lesson: lps.get('tuesday'),
-                    homework: false
+                    homework: false,
+                    completed: false
                 },
                 wednesday: {
                     lesson: lps.get('wednesday'),
-                    homework: false
+                    homework: false,
+                    completed: false
                 },
                 thursday: {
                     lesson: lps.get('thursday'),
-                    homework: false
+                    homework: false,
+                    completed: false
                 },
                 friday: {
                     lesson: lps.get('friday'),
-                    homework: false
+                    homework: false,
+                    completed: false
                 }
             };
         });
     },
     preparePlanForStudent(plan, studentId, subjects) {
         return {
-            learningPlanId: plan.get('learningPlanId'),
+            learningPlanId: plan.get('id'),
             studentId: studentId,
             sectionId: plan.get('courseSectionId'),
             weekNumber: plan.get('weekNumber'),

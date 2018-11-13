@@ -24,5 +24,8 @@ module.exports = {
         }
 
         res.send(students);
+    },
+    async getActiveLearningPlan(studentId, courseId, sectionId, res) {
+
     }
 };

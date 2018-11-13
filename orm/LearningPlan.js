@@ -1,6 +1,7 @@
 const Sequelize  = require('sequelize');
 const Op = Sequelize.Op;
 const LearningPlanSubject = require('./LearningPlanSubject');
+const CourseSection = require('./CourseSection');
 const sqlz = require('./db');
 
 const LearningPlan = sqlz.define('learning_plan', {
@@ -10,10 +11,6 @@ const LearningPlan = sqlz.define('learning_plan', {
         primaryKey: true,
         autoIncrement: true,
         allowNull: false
-    },
-    courseSectionId: {
-        field: 'course_section_id',
-        type: Sequelize.INTEGER
     },
     theme: {
         field: 'theme',
