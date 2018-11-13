@@ -12,6 +12,10 @@ const CourseSection = sqlz.define('course_section', {
         autoIncrement: true,
         allowNull: false
     },
+    courseId: {
+        field: 'course_id',
+        type: Sequelize.INTEGER
+    },
     teacherId: {
         field: 'teacher_id',
         type: Sequelize.INTEGER
@@ -25,10 +29,11 @@ CourseSection.hasMany(LearningPlan);
 
 // If testing locally, you may want to include `{ force: true }` in the call to `sync`.
 // This option will wipe the DB and recreate it every time.
-CourseSection.sync().then(() => {
+CourseSection.sync({ force: true }).then(() => {
     console.log('Course Section Table successfully created/updated.');
-}).catch(() => {
+}).catch((e) => {
     console.log('Error syncing Course Section table.');
+    console.log(e);
 });
 
 module.exports = CourseSection;

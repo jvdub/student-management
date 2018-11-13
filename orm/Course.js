@@ -28,7 +28,7 @@ Course.hasMany(CourseSection, { as: 'sections' });
 
 // If testing locally, you may want to include `{ force: true }` in the call to `sync`.
 // This option will wipe the DB and recreate it every time.
-Course.sync().then(() => {
+Course.sync({ force: true }).then(() => {
     console.log('Course Table successfully created/updated.');
 }).catch(() => {
     console.log('Error syncing Course table.');

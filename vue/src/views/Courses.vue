@@ -7,10 +7,10 @@
         </b-list-group>
         <b-modal id="addCourse" title="Add Course" @ok="addCourse">
             <b-form-group horizontal label="Course Name" label-for="courseName">
-                <b-form-input id="courseName"></b-form-input>
+                <b-form-input id="courseName" v-model="newCourse.name"></b-form-input>
             </b-form-group>
             <b-form-group horizontal label="Course Abbreviation" label-for="courseAbbreviation">
-                <b-form-input id="courseAbbreviation"></b-form-input>
+                <b-form-input id="courseAbbreviation" v-model="newCourse.abbreviation"></b-form-input>
             </b-form-group>
         </b-modal>
     </b-container>

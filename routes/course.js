@@ -8,6 +8,7 @@ router.get('/api/courses/', okta.authenticationRequired, function(req, res) {
 });
 
 router.post('/api/courses/', okta.authenticationRequired, function(req, res) {
+    console.log(req.body);
     course.addCourse(req.body, res);
 });
 
