@@ -20,12 +20,4 @@ const StudentCourseSection = sqlz.define('student_course_section', {
 StudentCourseSection.belongsTo(Person, { as: 'Student' });
 StudentCourseSection.belongsTo(CourseSection, { as: 'CourseSection' });
 
-// If testing locally, you may want to include `{ force: true }` in the call to `sync`.
-// This option will wipe the DB and recreate it every time.
-StudentCourseSection.sync().then(() => {
-    console.log('StudentCourseSection Table successfully created/updated.');
-}).catch(() => {
-    console.log('Error syncing StudentCourseSection table.');
-});
-
 module.exports = StudentCourseSection;

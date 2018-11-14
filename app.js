@@ -6,6 +6,9 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 const session = require('express-session');
 
+const dbSync = require('./orm/dbSync');
+dbSync();
+
 let upload = multer();
 let app = express();
 

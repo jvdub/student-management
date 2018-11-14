@@ -35,12 +35,4 @@ const RefState = sqlz.define('ref_state', {
     freezeTableName: true
 });
 
-// If testing locally, you may want to include `{ force: true }` in the call to `sync`.
-// This option will wipe the DB and recreate it every time.
-RefState.sync().then(() => {
-    console.log('RefState Table successfully created/updated.');
-}).catch(() => {
-    console.log('Error syncing RefState table.');
-});
-
 module.exports = RefState;

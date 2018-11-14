@@ -35,12 +35,4 @@ const OrganizationPersonRole = sqlz.define('organization_person_role', {
     freezeTableName: true
 });
 
-// If testing locally, you may want to include `{ force: true }` in the call to `sync`.
-// This option will wipe the DB and recreate it every time.
-OrganizationPersonRole.sync().then(() => {
-    console.log('OrganizationPersonRole Table successfully created/updated.');
-}).catch(() => {
-    console.log('Error syncing OrganizationPersonRole table.');
-});
-
 module.exports = OrganizationPersonRole;

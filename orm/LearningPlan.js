@@ -1,7 +1,6 @@
 const Sequelize  = require('sequelize');
 const Op = Sequelize.Op;
 const LearningPlanSubject = require('./LearningPlanSubject');
-const CourseSection = require('./CourseSection');
 const sqlz = require('./db');
 
 const LearningPlan = sqlz.define('learning_plan', {
@@ -48,13 +47,5 @@ const LearningPlan = sqlz.define('learning_plan', {
 });
 
 LearningPlan.hasMany(LearningPlanSubject, { as: 'subjects' });
-
-// If testing locally, you may want to include `{ force: true }` in the call to `sync`.
-// This option will wipe the DB and recreate it every time.
-LearningPlan.sync().then(() => {
-    console.log('LearningPlan Table successfully created/updated.');
-}).catch(() => {
-    console.log('Error syncing LearningPlan table.');
-});
 
 module.exports = LearningPlan;

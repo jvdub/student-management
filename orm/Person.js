@@ -81,12 +81,4 @@ const Person = sqlz.define('person', {
 
 Person.hasOne(OrganizationPersonRole, { foreignKey: 'person_id' });
 
-// If testing locally, you may want to include `{ force: true }` in the call to `sync`.
-// This option will wipe the DB and recreate it every time.
-Person.sync().then(() => {
-    console.log('Person Table successfully created/updated.');
-}).catch(() => {
-    console.log('Error syncing Person table.');
-});
-
 module.exports = Person;
