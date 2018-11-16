@@ -156,7 +156,12 @@ module.exports = {
         res.send(plan);
     },
     async getStudentsInSection(courseSectionId, res) {
+        console.log('here ======================================================================================');
+
         let studentsWithSections = await getStudentsInCourseSections(courseSectionId);
+
+        console.log(studentsWithSections);
+        console.log(courseSectionId);
 
         let students = studentsWithSections.map((s) => s.get('Student'));
 

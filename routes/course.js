@@ -24,7 +24,7 @@ router.get('/api/course/:courseId/sections/:sectionId/teacher', okta.authenticat
 });
 
 router.get('/api/course/:courseId/sections/:sectionId/student', okta.authenticationRequired, function (req, res) {
-    course.getStudentsInSection(+req.params.courseId, res);
+    course.getStudentsInSection(+req.params.sectionId, res);
 });
 
 router.post('/api/course/:courseId/sections/:sectionId/student', okta.authenticationRequired, function (req, res) {

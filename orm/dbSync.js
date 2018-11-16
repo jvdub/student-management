@@ -36,7 +36,6 @@ async function sync() {
     await syncTable(LearningPlan, 'LearningPlan');
     await syncTable(LearningPlanSubject, 'LearningPlanSubject');
     // await syncTable(StudentCourseSection, 'StudentCourseSection');
-    forceSync();
     await syncTable(StudentLearningPlan, 'StudentLearningPlan');
 }
 
@@ -58,7 +57,7 @@ async function forceSync() {
     //     startDate: "1970-01-01 00:00:00-07",
     //     endDate: "2222-12-31 00:00:00-07"
     // });
-    await StudentCourseSection.sync({ force: true });
+    // await StudentCourseSection.sync({ force: true });
 }
 
 module.exports = sync;
