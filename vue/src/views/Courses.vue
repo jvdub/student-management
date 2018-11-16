@@ -52,7 +52,7 @@ export default {
         async addCourse() {
             let newCourse = await saveCourse(this.newCourse);
             this.courses.push(newCourse);
-            refreshCourses();
+            this.refreshCourses();
         }
     }
 };

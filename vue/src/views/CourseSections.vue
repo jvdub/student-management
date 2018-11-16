@@ -27,6 +27,10 @@ async function getTeachers() {
     return execute('get', '/api/teachers');
 }
 
+async function saveNewSection(data) {
+    return execute('post', `/api/course/${this.courseId}/sections`, data);
+}
+
 export default {
     name: 'CourseSections',
     data() {
@@ -56,6 +60,17 @@ export default {
                     text: `${t.lastName}, ${t.firstName}`
                 };
             });
+        },
+        async addSection() {
+            let data = {
+                courseId: this.courseId,
+                teachersId: this.teacherSelection
+            };
+
+            let section = await saveNewSection.call(this, data);
+
+            this.sections.push(section);
+            this.refreshCourseAndSections();
         }
     }
 };

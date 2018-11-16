@@ -55,7 +55,6 @@ export default {
         },
         async refreshStudentsInSection() {
             this.studentsInSection = await getStudentsInSection.apply(this);
-            console.log(this.studentsInSection);
         },
         async refreshAllStudents() {
             let students = await getStudents.apply(this);
@@ -68,12 +67,14 @@ export default {
                 };
             });
         },
-        addStudent() {
-            addStudentToSection.call(this, {
+        async addStudent() {
+            let studentAdded = await addStudentToSection.call(this, {
                 studentId: this.selected
-            }).then((res) => {
-                console.log(res);
             });
+
+            this.students.concat(studentAdded);
+
+            this.refreshStudentsInSection();
         }
     }
 };

@@ -30,11 +30,11 @@ app.use('/implicit/callback', (req, res, next) => {
     return res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
-const t = require('./routes/test');
-app.use(t);
-
 const user = require('./routes/user');
 app.use(user);
+
+const t = require('./routes/teacher');
+app.use(t);
 
 const student = require('./routes/student');
 app.use(student);

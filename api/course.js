@@ -33,7 +33,7 @@ module.exports = {
 
         res.send(courses);
     },
-    async addCourse(newCourse) {
+    async addCourse(newCourse, res) {
         let savedCourse = await Course.create(newCourse);
 
         res.send(savedCourse);
@@ -50,6 +50,10 @@ module.exports = {
         });
 
         res.send(sections);
+    },
+    async addCourseSection(sectionToAdd, res) {
+        let newSection = await CourseSection.create(sectionToAdd);
+        res.send(newSection);
     },
     async getInstructorForSection(courseId, sectionId, res) {
         let section = await CourseSection.findOne({

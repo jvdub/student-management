@@ -63,7 +63,7 @@ module.exports = {
                             firstName: pData.firstName,
                             middleName: pData.middleName,
                             lastName: pData.lastName,
-                            birthdate: pData.birthdate,
+                            birthdate: new Date(pData.birthdate),
                             gender: pData.gender,
                             state: pData.state
                         }
@@ -85,9 +85,8 @@ module.exports = {
                     });
                 } catch (e) {
                     let result = await Person.destroy({ where: { id: person[0].get('id') } });
-                    req.status(500).send(e).end();
+                    res.status(500).send(e).end();
                 }
-
 
                 let newAuth;
 
@@ -124,7 +123,7 @@ module.exports = {
                     let result = await Person.destroy({ where: { id: person[0].get('id') } });
                     result = await OrganizationPersonRole.destroy({ where: { id: role[0].get('id') } });
                     result = await Authentication.destroy({ where: { id: newAuth[0].get('id') } });
-                    req.status(500).send(e).end();
+                    res.status(500).send(e).end();
                 });
             } else {
                 res.sendStatus(409);
