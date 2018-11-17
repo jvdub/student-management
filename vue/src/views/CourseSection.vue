@@ -5,7 +5,7 @@
         <h1>Students</h1>
         <b-btn v-b-modal.studentModal>Add Student</b-btn>
         <b-list-group>
-            <b-list-group-item v-for="student of studentsInSection">{{ student.lastName }}, {{student.firstName}}</b-list-group-item>
+            <b-list-group-item v-for="student of studentsInSection" v-bind:href="`/course/${courseId}/section/${sectionId}/student/${student.id}/learningPlan/`">{{ student.lastName }}, {{student.firstName}}</b-list-group-item>
         </b-list-group>
         <b-modal id="studentModal" title="Add Student" @ok="addStudent">
             <b-form-select v-model="selected" v-bind:options="students"></b-form-select>
@@ -36,8 +36,8 @@ export default {
     name: 'CourseSection',
     data() {
         return {
-            courseId: this.$route.params.courseId,
-            sectionId: this.$route.params.sectionId,
+            courseId: +this.$route.params.courseId,
+            sectionId: +this.$route.params.sectionId,
             course: {},
             studentsInSection: [],
             students: [],

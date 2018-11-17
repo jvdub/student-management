@@ -25,7 +25,6 @@ async function syncTable(table, name) {
 
 async function sync() {
     await syncTable(Authentication, 'Authentication');
-    // forceSync();
     await syncTable(OrganizationPersonRole, 'OrganizationPersonRole');
     await syncTable(Person, 'Person');
     await syncTable(RefGender, 'RefGender');
@@ -35,7 +34,7 @@ async function sync() {
     await syncTable(CourseSection, 'CourseSection');
     await syncTable(LearningPlan, 'LearningPlan');
     await syncTable(LearningPlanSubject, 'LearningPlanSubject');
-    // await syncTable(StudentCourseSection, 'StudentCourseSection');
+    await syncTable(StudentCourseSection, 'StudentCourseSection');
     await syncTable(StudentLearningPlan, 'StudentLearningPlan');
 }
 
@@ -58,6 +57,7 @@ async function forceSync() {
     //     endDate: "2222-12-31 00:00:00-07"
     // });
     // await StudentCourseSection.sync({ force: true });
+    // await LearningPlan.sync({ force: true });
 }
 
 module.exports = sync;

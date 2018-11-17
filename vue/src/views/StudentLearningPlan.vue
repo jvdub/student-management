@@ -1,6 +1,10 @@
 <template>
     <b-container>
         <h1>Student Learning Plan</h1>
+        <p v-if="this.$store.state.user.role.id === 1">Teacher view</p>
+        <p v-if="this.$store.state.user.role.id === 2">Student view</p>
+        <p v-if="this.$store.state.user.role.id === 3">Parent view</p>
+        <p>{{plan.theme}}</p>
     </b-container>
 </template>
 
@@ -18,9 +22,18 @@ export default {
             studentId: +this.$route.params.studentId,
             courseId: +this.$route.params.courseId,
             sectionId: +this.$route.params.sectionId,
-            userRole: +this.$store.state.user.roleId,
             plan: {}
         };
+    },
+    async created() {
+        this.refreshActivePlan();
+    },
+    methods: {
+        async refreshActivePlan() {
+            let p = await getActivePlan.apply(this);
+
+            this.plan = JSON.parse(p.data);
+        }
     }
 };
 </script>

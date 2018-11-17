@@ -11,6 +11,10 @@ const LearningPlan = sqlz.define('learning_plan', {
         autoIncrement: true,
         allowNull: false
     },
+    courseSectionId: {
+        field: 'course_section_id',
+        type: Sequelize.INTEGER
+    },
     theme: {
         field: 'theme',
         type: Sequelize.TEXT

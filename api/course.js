@@ -133,13 +133,13 @@ module.exports = {
 
         let lpSubjects = await fetchLearningPlanSubjects(plan.get('learningPlanId'));
         let subjects = learningPlanUtils.prepareSubjectsForStudentPlan(lpSubjects);
-        let students = await getStudentsInCourseSections(plan.get('courseSectionId'));
+        let studentsInSection = await getStudentsInCourseSections(plan.get('courseSectionId'));
 
-        for (let student of students) {
+        for (let studentSection of studentsInSection) {
             let p = {
-                StudentId: student.get('id'),
+                StudentId: studentSection.get('StudentId'),
                 learningPlanId: plan.get('id'),
-                data: JSON.stringify(learningPlanUtils.preparePlanForStudent(plan, student.get('id'), subjects))
+                data: JSON.stringify(learningPlanUtils.preparePlanForStudent(plan, studentSection.get('id'), subjects))
             };
 
             let slp = await StudentLearningPlan.create(p);
@@ -156,12 +156,7 @@ module.exports = {
         res.send(plan);
     },
     async getStudentsInSection(courseSectionId, res) {
-        console.log('here ======================================================================================');
-
         let studentsWithSections = await getStudentsInCourseSections(courseSectionId);
-
-        console.log(studentsWithSections);
-        console.log(courseSectionId);
 
         let students = studentsWithSections.map((s) => s.get('Student'));
 

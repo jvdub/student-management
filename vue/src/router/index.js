@@ -64,7 +64,7 @@ let index = new Router({
         },
         {
             path: '/course/:courseId/section/:sectionId/student/:studentId/learningPlan/',
-            name: 'learningplan',
+            name: 'studentlearningplan',
             component: StudentLearningPlan,
             meta: {
                 requiresAuth: true

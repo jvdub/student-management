@@ -1,6 +1,8 @@
 const OrganizationPersonRole = require('../orm/OrganizationPersonRole');
 const Person = require('../orm/Person');
 const Role = require('../orm/Role');
+const StudentLearningPlan = require('../orm/StudentLearningPlan');
+const LearningPlan = require('../orm/LearningPlan');
 
 module.exports = {
     async getAllStudents(res) {
@@ -26,6 +28,23 @@ module.exports = {
         res.send(students);
     },
     async getActiveLearningPlan(studentId, courseId, sectionId, res) {
+        let allPlans = await StudentLearningPlan.findAll({
+            where: {
+                StudentId: studentId
+            },
+            include: {
+                model: LearningPlan
+            }
+        });
 
+        for (let plan of allPlans) {
+            let expiryDate = new Date(plan.get('learning_plan').get('expiryDate'));
+
+            if (expiryDate - Date.now() > 0) {
+                res.send(plan);
+            }
+        }
+
+        res.sendStatus(404);
     }
 };
