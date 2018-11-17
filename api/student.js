@@ -36,15 +36,20 @@ module.exports = {
                 model: LearningPlan
             }
         });
+        let sent = false;
 
         for (let plan of allPlans) {
             let expiryDate = new Date(plan.get('learning_plan').get('expiryDate'));
 
             if (expiryDate - Date.now() > 0) {
                 res.send(plan);
+                sent = true;
+                break;
             }
         }
 
-        res.sendStatus(404);
+        if (!sent) {
+            res.sendStatus(404);
+        }
     }
 };

@@ -131,7 +131,7 @@ module.exports = {
 
         plan = await plan.save();
 
-        let lpSubjects = await fetchLearningPlanSubjects(plan.get('learningPlanId'));
+        let lpSubjects = await fetchLearningPlanSubjects(plan.get('id'));
         let subjects = learningPlanUtils.prepareSubjectsForStudentPlan(lpSubjects);
         let studentsInSection = await getStudentsInCourseSections(plan.get('courseSectionId'));
 
