@@ -7,6 +7,7 @@ module.exports = {
     prepareSubjectsForStudentPlan(learningPlanSubjects) {
         return learningPlanSubjects.map((lps) => {
             return {
+                id: lps.get('id'),
                 name: lps.get('name'),
                 monday: {
                     lesson: lps.get('monday'),

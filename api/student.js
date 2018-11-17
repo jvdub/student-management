@@ -51,5 +51,14 @@ module.exports = {
         if (!sent) {
             res.sendStatus(404);
         }
+    },
+    async updateStudentLearningPlan(studentLearningPlanId, plan, res) {
+        let currentPlan = await StudentLearningPlan.findById(studentLearningPlanId);
+
+        currentPlan.set('data', JSON.stringify(plan));
+
+        let updatedPlan = await currentPlan.save();
+
+        res.send(updatedPlan);
     }
 };

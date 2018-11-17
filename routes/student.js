@@ -11,4 +11,10 @@ router.get('/api/student/:studentId/course/:courseId/section/:sectionId/learning
     student.getActiveLearningPlan(+req.params.studentId, +req.params.courseId, +req.params.sectionId, res);
 });
 
+router.put('/api/student-learning-plan/:studentLearningPlanId', okta.authenticationRequired, function(req, res) {
+    console.log(req.params);
+    console.log(req.body);
+    student.updateStudentLearningPlan(+req.params.studentLearningPlanId, req.body, res);
+});
+
 module.exports = router;
