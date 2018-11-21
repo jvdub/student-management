@@ -17,4 +17,8 @@ router.put('/api/student-learning-plan/:studentLearningPlanId', okta.authenticat
     student.updateStudentLearningPlan(+req.params.studentLearningPlanId, req.body, res);
 });
 
+router.get('/api/student/:studentId/courses', okta.authenticationRequired, (req, res) => {
+    student.getCoursesForStudent(+req.params.studentId, res);
+});
+
 module.exports = router;

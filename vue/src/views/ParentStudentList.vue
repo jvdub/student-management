@@ -2,7 +2,7 @@
     <b-container>
         <h1>Students</h1>
         <b-list-group>
-            <b-list-group-item v-for="student of students">{{student.firstName}} {{student.middleName}} {{student.lastName}}</b-list-group-item>
+            <b-list-group-item v-for="student of students" v-bind:href="`/student/${student.id}/courses`">{{student.firstName}} {{student.middleName}} {{student.lastName}}</b-list-group-item>
         </b-list-group>
     </b-container>
 </template>

@@ -2,7 +2,9 @@ const OrganizationPersonRole = require('../orm/OrganizationPersonRole');
 const Person = require('../orm/Person');
 const Role = require('../orm/Role');
 const StudentLearningPlan = require('../orm/StudentLearningPlan');
+const StudentCourseSection = require('../orm/StudentCourseSection');
 const LearningPlan = require('../orm/LearningPlan');
+const CourseSection = require('../orm/CourseSection');
 
 module.exports = {
     async getAllStudents(res) {
@@ -60,5 +62,24 @@ module.exports = {
         let updatedPlan = await currentPlan.save();
 
         res.send(updatedPlan);
+    },
+    async getCoursesForStudent(studentId, res) {
+        let sections = await StudentCourseSection.findAll({
+            where: {
+                studentId: studentId
+            },
+            include: [
+                {
+                    model: Person,
+                    as: 'Student'
+                },
+                {
+                    model: CourseSection,
+                    as: 'CourseSection'
+                }
+            ]
+        });
+
+        res.send(sections);
     }
 };
