@@ -2,7 +2,7 @@
     <b-container>
         <h1>Courses</h1>
         <b-list-group>
-            <b-list-group-item>Course 1</b-list-group-item>
+            <b-list-group-item v-for="s of studentSections" v-bind:href="`/student/${studentId}/course/${s.courseSectionId}`">{{s.course.name}}</b-list-group-item>
         </b-list-group>
     </b-container>
 </template>
@@ -19,7 +19,7 @@ export default {
     data() {
         return {
             studentId: +this.$route.params.studentId,
-            courses: []
+            studentSections: []
         };
     },
     async created() {
@@ -27,7 +27,7 @@ export default {
     },
     methods: {
         async refreshCourseList() {
-            this.courses = await getAllCoursesForStudent.apply(this);
+            this.studentSections = await getAllCoursesForStudent.apply(this);
         }
     }
 };
