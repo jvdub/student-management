@@ -6,8 +6,6 @@
             <b-collapse is-nav id="nav_collapse">
                 <b-navbar-nav>
                     <b-nav-item to="/">Home</b-nav-item>
-                    <!--<b-nav-item to="/users" v-if="this.$store.state.authenticated && this.$store.state.user.role.id === 1">Users</b-nav-item>-->
-                    <!--<b-nav-item to="/courses" v-if="this.$store.state.authenticated && this.$store.state.user.role.id === 1">Courses</b-nav-item>-->
                     <b-nav-item href="#" @click.prevent="login" v-if="!this.$store.state.authenticated">Login</b-nav-item>
                     <b-nav-item href="#" @click.prevent="logout" v-else>Logout</b-nav-item>
                 </b-navbar-nav>

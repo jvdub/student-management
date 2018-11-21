@@ -1,11 +1,21 @@
-const Authentication = require('../orm/Authentication');
-const OrganizationPersonRole = require('../orm/OrganizationPersonRole');
 const Person = require('../orm/Person');
-const Role = require('../orm/Role');
 
 module.exports = {
     async getStudentsFromParent(parentId, res) {
-        let persons = await Person.findAll();
-        res.send(persons);
+        let persons = await Person.findAll({
+            include: [{
+                model: Person,
+                as: 'student',
+                through: {
+                    where: {
+                        parent_id: parentId
+                    }
+                }
+            }]
+        });
+
+        let students = persons.map((p) => p.student).filter((i) => i.length > 0)[0];
+
+        res.send(students);
     }
 };

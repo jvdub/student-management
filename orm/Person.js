@@ -81,4 +81,17 @@ const Person = sqlz.define('person', {
 
 Person.hasOne(OrganizationPersonRole, { foreignKey: 'person_id' });
 
+Person.belongsToMany(Person, {
+    as: 'parent',
+    through: 'student_parent',
+    timestamps: false,
+    foreignKey: 'student_id'
+});
+Person.belongsToMany(Person, {
+    as: 'student',
+    through: 'student_parent',
+    timestamps: false,
+    foreignKey: 'parent_id'
+});
+
 module.exports = Person;

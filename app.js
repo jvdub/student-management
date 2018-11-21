@@ -39,6 +39,9 @@ app.use(t);
 const student = require('./routes/student');
 app.use(student);
 
+const parent = require('./routes/parent');
+app.use(parent);
+
 const course = require('./routes/course');
 app.use(course);
 
