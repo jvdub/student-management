@@ -7,6 +7,7 @@ const LearningPlan = require('../orm/LearningPlan');
 const LearningPlanSubject = require('../orm/LearningPlanSubject');
 const StudentCourseSection = require('../orm/StudentCourseSection');
 const StudentLearningPlan = require('../orm/StudentLearningPlan');
+const Announcement = require('../orm/Announcement');
 
 async function getStudentsInCourseSections(courseSectionId) {
     return await StudentCourseSection.findAll({
@@ -103,6 +104,15 @@ module.exports = {
         let subjects = await fetchLearningPlanSubjects(learningPlanId);
 
         res.send(subjects);
+    },
+    async getLearningPlanAnnouncements(learningPlanId, res) {
+        let announcements = await Announcement.findAll({
+            where: {
+                learningPlanId: learningPlanId
+            }
+        });
+
+        res.send(announcements);
     },
     async addNewLearningPlan(courseId, sectionId, req, res) {
         let body = utils.cloneObject(req.body);

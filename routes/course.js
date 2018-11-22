@@ -44,7 +44,12 @@ router.get('/api/course/:courseId/sections/:sectionId/learning-plan/:learningPla
 });
 
 router.get('/api/course/:courseId/sections/:sectionId/learning-plan/:learningPlanId/subjects', okta.authenticationRequired, function (req, res) {
+    console.log(+req.params.learningPlanId);
     course.getLearningPlanSubjects(+req.params.learningPlanId, res);
+});
+
+router.get('/api/course/:courseId/sections/:sectionId/learning-plan/:learningPlanId/announcements', okta.authenticationRequired, function (req, res) {
+    course.getLearningPlanAnnouncements(+req.params.learningPlanId, res);
 });
 
 router.put('/api/course/:courseId/sections/:sectionId/learning-plan/:learningPlanId/activate', okta.authenticationRequired, function (req, res) {

@@ -48,6 +48,10 @@
             </b-col>
         </b-row>
         <learning-plan-subject v-for="subject of plan.subjects" :subject.sync="subject" v-bind:editable="false"></learning-plan-subject>
+        <b-row v-if="$store.state.user.role.id === 1">
+            <b-button>Add Announcement</b-button>
+        </b-row>
+        <learning-plan-announcement v-for="announcement of plan.announcements" :announcement.sync="announcement" v-bind:id-number="announcement.id"></learning-plan-announcement>
         <b-modal id="activatePlan" title="Activate Plan" @ok="activateLearningPlan">
             <label v-bind:for="'expiry-date'">Expiry Date</label>
             <b-form-input type="date" v-bind:id="'expiry-date'" v-model="plan.expiryDate"></b-form-input>
@@ -57,6 +61,7 @@
 
 <script>
 import LearningPlanSubject from '../components/LearningPlanSubject';
+import LearningPlanAnnouncement from '../components/LearningPlanAnnouncement';
 import { execute } from '../http.js';
 
 async function getInstructor() {
@@ -75,6 +80,10 @@ async function getLearningPlanSubjects() {
     return execute('get', `/api/course/${this.courseId}/sections/${this.sectionId}/learning-plan/${this.learningPlanId}/subjects`);
 }
 
+async function getLearningPlanAnnouncements() {
+    return execute('get', `/api/course/${this.courseId}/sections/${this.sectionId}/learning-plan/${this.learningPlanId}/announcements`);
+}
+
 async function sendActivateLearningPlan(data) {
     return execute('put', `/api/course/${this.courseId}/sections/${this.sectionId}/learning-plan/${this.learningPlanId}/activate`, data);
 }
@@ -85,7 +94,10 @@ async function sendCancelLearningPlan() {
 
 export default {
     name: 'LearningPlan',
-    components: { LearningPlanSubject },
+    components: {
+        LearningPlanAnnouncement,
+        LearningPlanSubject
+    },
     data() {
         return {
             courseId: this.$route.params.courseId,
@@ -100,7 +112,8 @@ export default {
                 classNumber: '',
                 theme: '',
                 subjects: [],
-                expiryDate: null
+                expiryDate: null,
+                announcements: []
             }
         };
     },
@@ -124,6 +137,11 @@ export default {
                 s.edit = false;
                 this.plan.subjects.push(s);
             }
+
+            this.refreshLearningPlanAnnouncements();
+        },
+        async refreshLearningPlanAnnouncements() {
+            this.plan.announcements = await getLearningPlanAnnouncements.apply(this);
         },
         async refreshInstructorName() {
             let teacher = await getInstructor.apply(this);
@@ -152,6 +170,13 @@ export default {
             this.plan = plan;
 
             this.refreshLearningPlanSubjects();
+        },
+        addAnnouncement() {
+            this.plan.announcements.push({
+                id: this.plan.announcements.length + 1,
+                learningPlanId: this.learningPlanId,
+                announcement: ''
+            });
         }
     }
 };
