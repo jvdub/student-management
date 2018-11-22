@@ -1,6 +1,7 @@
 const Sequelize  = require('sequelize');
 const Op = Sequelize.Op;
 const LearningPlanSubject = require('./LearningPlanSubject');
+const Announcement = require('./Announcement');
 const sqlz = require('./db');
 
 const LearningPlan = sqlz.define('learning_plan', {
@@ -51,5 +52,6 @@ const LearningPlan = sqlz.define('learning_plan', {
 });
 
 LearningPlan.hasMany(LearningPlanSubject, { as: 'subjects' });
+LearningPlan.hasMany(Announcement, { as: 'announcements' });
 
 module.exports = LearningPlan;

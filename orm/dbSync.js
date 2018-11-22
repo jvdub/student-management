@@ -3,6 +3,7 @@ const Course = require('./Course');
 const CourseSection = require('./CourseSection');
 const LearningPlan = require('./LearningPlan');
 const LearningPlanSubject = require('./LearningPlanSubject');
+const Announcement = require('./Announcement');
 const OrganizationPersonRole = require('./OrganizationPersonRole');
 const Person = require('./Person');
 const RefGender = require('./RefGender');
@@ -34,6 +35,7 @@ async function sync() {
     await syncTable(CourseSection, 'CourseSection');
     await syncTable(LearningPlan, 'LearningPlan');
     await syncTable(LearningPlanSubject, 'LearningPlanSubject');
+    await syncTable(Announcement, 'Announcement');
     await syncTable(StudentCourseSection, 'StudentCourseSection');
     await syncTable(StudentLearningPlan, 'StudentLearningPlan');
 }
