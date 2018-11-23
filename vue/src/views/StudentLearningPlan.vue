@@ -102,24 +102,24 @@
 import { execute } from '../http.js';
 import { debounce } from '../debounce.js';
 
-async function getInstructor() {
-    return execute('get', `/api/course/${this.courseId}/sections/${this.sectionId}/teacher`);
+async function getInstructor(courseId, sectionId) {
+    return execute('get', `/api/course/${courseId}/sections/${sectionId}/teacher`);
 }
 
-async function getCourse() {
-    return execute('get', `/api/course/${this.courseId}`);
+async function getCourse(courseId) {
+    return execute('get', `/api/course/${courseId}`);
 }
 
-async function getStudentInfo() {
-    return execute('get', `/api/user/${this.studentId}`);
+async function getStudentInfo(studentId) {
+    return execute('get', `/api/user/${studentId}`);
 }
 
-async function getActivePlan() {
-    return execute('get', `/api/student/${this.studentId}/course/${this.courseId}/section/${this.sectionId}/learning-plan/active`);
+async function getActivePlan(studentId, courseId, sectionId) {
+    return execute('get', `/api/student/${studentId}/course/${courseId}/section/${sectionId}/learning-plan/active`);
 }
 
-async function updateCurrentPlan(updatedPlan) {
-    return execute('put', `/api/student-learning-plan/${this.planInfo.id}`, updatedPlan);
+async function updateCurrentPlan(planId, updatedPlan) {
+    return execute('put', `/api/student-learning-plan/${planId}`, updatedPlan);
 }
 
 export default {
@@ -151,33 +151,33 @@ export default {
         this.refreshActivePlan();
         this.refreshInstructorName();
         this.refreshCourseName();
+        this.debouncePlanSaving = debounce(this.savePlan, 1000);
     },
     methods: {
         async refreshStudentInfo() {
-            this.student = await getStudentInfo.apply(this);
+            this.student = await getStudentInfo(this.studentId);
         },
         async refreshInstructorName() {
-            let teacher = await getInstructor.apply(this);
+            let teacher = await getInstructor(this.courseId, this.sectionId);
 
             let title = teacher.gender === 1 ? 'Mr.' : 'Mrs.';
             this.teacher = `${title} ${teacher.lastName}`;
         },
         async refreshCourseName() {
-            let course = await getCourse.apply(this);
+            let course = await getCourse(this.courseId);
 
             this.course = course.name;
         },
         async refreshActivePlan() {
-            let p = await getActivePlan.apply(this);
+            let p = await getActivePlan(this.studentId, this.courseId, this.sectionId);
 
             this.plan = JSON.parse(p.data);
             this.planInfo.id = p.id;
             this.planInfo.StudentId = p.StudentId;
             this.planInfo.learningPlanId = p.learningPlanId;
         },
-        debouncePlanSaving: debounce.call(this, (e) => this.savePlan(e), 1000),
-        async savePlan(e) {
-            updateCurrentPlan.call(this, this.plan);
+        async savePlan() {
+            updateCurrentPlan(this.planInfo.id, this.plan);
         }
     }
 };

@@ -5,8 +5,8 @@
                     v-if="$store.state.user.role.id === 1"
                     v-bind:id="`announcement-${idNumber}`"
                     v-model="subjectVal"
-                    placeholder="Enter the announcement"
-                    @keyup="debounceAnnouncementSaving"></b-form-textarea>
+                    placeholder="Enter the announcement">
+            </b-form-textarea>
             <p v-if="$store.state.user.role.id !== 1" v-bind:id="`announcement-${idNumber}-readonly`">{{subjectVal}}</p>
         </b-col>
     </b-row>
@@ -14,6 +14,10 @@
 
 <script>
 import { debounce } from '../debounce.js';
+
+async function savePlan() {
+
+}
 
 export default {
     name: 'LearningPlanAnnouncement',
@@ -28,12 +32,6 @@ export default {
     watch: {
         subjectVal(val) {
             this.$emit('input', val);
-        }
-    },
-    methods: {
-        debounceAnnouncementSaving: debounce.call(this, (e) => this.saveAnnouncement(e), 1000),
-        async saveAnnouncement(e) {
-            updateCurrentPlan.call(this, this.plan);
         }
     }
 };
