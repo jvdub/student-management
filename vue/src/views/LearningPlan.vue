@@ -48,8 +48,10 @@
             </b-col>
         </b-row>
         <learning-plan-subject v-for="subject of plan.subjects" :subject.sync="subject" v-bind:editable="false"></learning-plan-subject>
-        <b-row v-if="$store.state.user.role.id === 1">
-            <b-button @click="addAnnouncement" variant="primary">Add Announcement</b-button>
+        <b-row v-if="$store.state.user.role.id === 1 && !plan.expiryDate">
+            <b-col>
+                <b-button @click="addAnnouncement" variant="primary">Add Announcement</b-button>
+            </b-col>
         </b-row>
         <learning-plan-announcement v-for="announcement of plan.announcements" :announcement.sync="announcement" v-bind:id-number="announcement.id"></learning-plan-announcement>
         <b-modal id="activatePlan" title="Activate Plan" @ok="activateLearningPlan">

@@ -52,46 +52,46 @@
             <b-col v-bind:class="{ 'has-incomplete-homework': (subject.monday.homework && !subject.monday.complete), 'has-complete-homework': (subject.monday.homework && subject.monday.complete) }">
                 <p>{{subject.monday.lesson}}</p>
                 <span v-if="$store.state.user.role.id === 1">
-                    Homework? <b-form-checkbox v-bind:id="`monday-homework-${subject.id}`" v-model="subject.monday.homework" @change="debouncePlanSaving()"></b-form-checkbox>
+                    Homework? <b-form-checkbox v-bind:id="`monday-homework-${subject.id}`" v-model="subject.monday.homework" @change="debouncePlanSaving"></b-form-checkbox>
                 </span>
                 <span v-if="$store.state.user.role.id === 3 && subject.monday.homework">
-                    Homework Complete? <b-form-checkbox v-bind:id="`monday-homework-complete-${subject.id}`" v-model="subject.monday.complete" @change="debouncePlanSaving()"></b-form-checkbox>
+                    Homework Complete? <b-form-checkbox v-bind:id="`monday-homework-complete-${subject.id}`" v-model="subject.monday.complete" @change="debouncePlanSaving"></b-form-checkbox>
                 </span>
             </b-col>
             <b-col v-bind:class="{ 'has-incomplete-homework': (subject.tuesday.homework && !subject.tuesday.complete), 'has-complete-homework': (subject.tuesday.homework && subject.tuesday.complete) }">
                 <p>{{subject.tuesday.lesson}}</p>
                 <span v-if="$store.state.user.role.id === 1">
-                    Homework? <b-form-checkbox v-bind:id="`tuesday-homework-${subject.id}`" v-model="subject.tuesday.homework" @change="debouncePlanSaving()"></b-form-checkbox>
+                    Homework? <b-form-checkbox v-bind:id="`tuesday-homework-${subject.id}`" v-model="subject.tuesday.homework" @change="debouncePlanSaving"></b-form-checkbox>
                 </span>
                 <span v-if="$store.state.user.role.id === 3 && subject.tuesday.homework">
-                    Homework Complete? <b-form-checkbox v-bind:id="`tuesday-homework-complete-${subject.id}`" v-model="subject.tuesday.complete" @change="debouncePlanSaving()"></b-form-checkbox>
+                    Homework Complete? <b-form-checkbox v-bind:id="`tuesday-homework-complete-${subject.id}`" v-model="subject.tuesday.complete" @change="debouncePlanSaving"></b-form-checkbox>
                 </span>
             </b-col>
             <b-col v-bind:class="{ 'has-incomplete-homework': (subject.wednesday.homework && !subject.wednesday.complete), 'has-complete-homework': (subject.wednesday.homework && subject.wednesday.complete) }">
                 <p>{{subject.wednesday.lesson}}</p>
                 <span v-if="$store.state.user.role.id === 1">
-                    Homework? <b-form-checkbox v-bind:id="`wednesday-homework-${subject.id}`" v-model="subject.wednesday.homework" @change="debouncePlanSaving()"></b-form-checkbox>
+                    Homework? <b-form-checkbox v-bind:id="`wednesday-homework-${subject.id}`" v-model="subject.wednesday.homework" @change="debouncePlanSaving"></b-form-checkbox>
                 </span>
                 <span v-if="$store.state.user.role.id === 3 && subject.wednesday.homework">
-                    Homework Complete? <b-form-checkbox v-bind:id="`wednesday-homework-complete-${subject.id}`" v-model="subject.wednesday.complete" @change="debouncePlanSaving()"></b-form-checkbox>
+                    Homework Complete? <b-form-checkbox v-bind:id="`wednesday-homework-complete-${subject.id}`" v-model="subject.wednesday.complete" @change="debouncePlanSaving"></b-form-checkbox>
                 </span>
             </b-col>
             <b-col v-bind:class="{ 'has-incomplete-homework': (subject.thursday.homework && !subject.thursday.complete), 'has-complete-homework': (subject.thursday.homework && subject.thursday.complete) }">
                 <p>{{subject.thursday.lesson}}</p>
                 <span v-if="$store.state.user.role.id === 1">
-                    Homework? <b-form-checkbox v-bind:id="`thursday-homework-${subject.id}`" v-model="subject.thursday.homework" @change="debouncePlanSaving()"></b-form-checkbox>
+                    Homework? <b-form-checkbox v-bind:id="`thursday-homework-${subject.id}`" v-model="subject.thursday.homework" @change="debouncePlanSaving"></b-form-checkbox>
                 </span>
                 <span v-if="$store.state.user.role.id === 3 && subject.thursday.homework">
-                    Homework Complete? <b-form-checkbox v-bind:id="`thursday-homework-complete-${subject.id}`" v-model="subject.thursday.complete" @change="debouncePlanSaving()"></b-form-checkbox>
+                    Homework Complete? <b-form-checkbox v-bind:id="`thursday-homework-complete-${subject.id}`" v-model="subject.thursday.complete" @change="debouncePlanSaving"></b-form-checkbox>
                 </span>
             </b-col>
             <b-col v-bind:class="{ 'has-incomplete-homework': (subject.friday.homework && !subject.friday.complete), 'has-complete-homework': (subject.friday.homework && subject.friday.complete) }">
                 <p>{{subject.friday.lesson}}</p>
                 <span v-if="$store.state.user.role.id === 1">
-                    Homework? <b-form-checkbox v-bind:id="`friday-homework-${subject.id}`" v-model="subject.friday.homework" @change="debouncePlanSaving()"></b-form-checkbox>
+                    Homework? <b-form-checkbox v-bind:id="`friday-homework-${subject.id}`" v-model="subject.friday.homework" @change="debouncePlanSaving"></b-form-checkbox>
                 </span>
                 <span v-if="$store.state.user.role.id === 3 && subject.friday.homework">
-                    Homework Complete? <b-form-checkbox v-bind:id="`friday-homework-complete-${subject.id}`" v-model="subject.friday.complete" @change="debouncePlanSaving()"></b-form-checkbox>
+                    Homework Complete? <b-form-checkbox v-bind:id="`friday-homework-complete-${subject.id}`" v-model="subject.friday.complete" @change="debouncePlanSaving"></b-form-checkbox>
                 </span>
             </b-col>
         </b-row>
@@ -175,9 +175,7 @@ export default {
             this.planInfo.StudentId = p.StudentId;
             this.planInfo.learningPlanId = p.learningPlanId;
         },
-        debouncePlanSaving(e) {
-            debounce((e) => this.savePlan(e), 1000)(e);
-        },
+        debouncePlanSaving: debounce.call(this, (e) => this.savePlan(e), 1000),
         async savePlan(e) {
             updateCurrentPlan.call(this, this.plan);
         }

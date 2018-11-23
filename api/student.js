@@ -31,6 +31,7 @@ module.exports = {
         res.send(students);
     },
     async getActiveLearningPlan(studentId, courseId, sectionId, res) {
+        let sent = false;
         let allPlans = await StudentLearningPlan.findAll({
             where: {
                 StudentId: studentId
@@ -39,7 +40,6 @@ module.exports = {
                 model: LearningPlan
             }
         });
-        let sent = false;
 
         for (let plan of allPlans) {
             let expiryDate = new Date(plan.get('learning_plan').get('expiryDate'));
