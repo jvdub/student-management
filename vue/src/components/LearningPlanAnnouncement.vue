@@ -1,7 +1,7 @@
 <template>
     <b-row>
-        <b-form-textarea v-if="userRoleId === 1" v-bind:id="`announcement-${idNumber}`" v-model="subjectVal" placeholder="Enter the announcement"></b-form-textarea>
-        <p v-if="userRoleId !== 1" v-bind:id="`announcement-${idNumber}-readonly`">{{subjectVal}}</p>
+        <b-form-textarea v-if="$store.state.user.role.id === 1" v-bind:id="`announcement-${idNumber}`" v-model="subjectVal" placeholder="Enter the announcement"></b-form-textarea>
+        <p v-if="$store.state.user.role.id !== 1" v-bind:id="`announcement-${idNumber}-readonly`">{{subjectVal}}</p>
     </b-row>
 </template>
 
@@ -13,7 +13,6 @@ export default {
     },
     data() {
         return {
-            userRoleId: this.$store.state.user.role.id,
             subjectVal: this.value
         };
     },

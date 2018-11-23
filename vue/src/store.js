@@ -6,7 +6,14 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         authenticated: false,
-        user: {}
+        user: {
+            person: {
+                id: 0
+            },
+            role: {
+                id: 0
+            }
+        }
     },
     mutations: {},
     getters: {
