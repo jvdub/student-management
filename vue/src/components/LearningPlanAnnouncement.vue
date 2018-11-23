@@ -15,8 +15,9 @@
 <script>
 import { debounce } from '../debounce.js';
 
-async function savePlan() {
-
+async function saveAnnouncement(val) {
+    console.log('Savin\' it!');
+    console.log(val);
 }
 
 export default {
@@ -29,9 +30,13 @@ export default {
             subjectVal: this.value
         };
     },
+    created() {
+        this.debounceAnnouncementSaving = debounce((val) => saveAnnouncement(val), 1000);
+    },
     watch: {
         subjectVal(val) {
             this.$emit('input', val);
+            this.debounceAnnouncementSaving(val);
         }
     }
 };
