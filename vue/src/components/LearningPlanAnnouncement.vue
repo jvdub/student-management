@@ -5,7 +5,8 @@
                 <b-form-textarea
                         v-bind:id="`announcement-${announcement.id}`"
                         v-model="announcement.announcement"
-                        placeholder="Enter the announcement">
+                        placeholder="Enter the announcement"
+                        @input="handleTextChange">
                 </b-form-textarea>
                 <b-button size="sm" @click="removeAnnouncement">❌</b-button>
             </span>
@@ -72,6 +73,9 @@ export default {
         removeAnnouncement() {
             deleteAnnouncement(this.announcement.id);
             this.$emit('delete', this.announcement.id);
+        },
+        handleTextChange(val) {
+            this.debounceAnnouncementSaving(val);
         }
     },
     watch: {
