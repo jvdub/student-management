@@ -3,14 +3,14 @@
         <b-col>
             <span v-if="$store.state.user.role.id === 1">
                 <b-form-textarea
-                        v-bind:id="`announcement-${announcementVal.id}`"
-                        v-model="announcementVal.announcement"
+                        v-bind:id="`announcement-${announcement.id}`"
+                        v-model="announcement.announcement"
                         placeholder="Enter the announcement">
                 </b-form-textarea>
                 <b-button size="sm" @click="removeAnnouncement">❌</b-button>
             </span>
             <span v-if="$store.state.user.role.id !== 1">
-                <p v-bind:id="`announcement-${announcementVal.id}-readonly`">{{announcementVal.announcement}}</p>
+                <p v-bind:id="`announcement-${announcement.id}-readonly`">{{announcement.announcement}}</p>
             </span>
         </b-col>
     </b-row>
@@ -43,6 +43,14 @@ async function deleteAnnouncement(courseId, sectionId, learningPlanId, id) {
 
 export default {
     name: 'LearningPlanAnnouncement',
+    props: {
+        announcement: {
+            id: null,
+            learningPlanId: null,
+            announcement: '',
+            isNew: true
+        }
+    },
     data() {
         return {
             announcementVal: this.value,
@@ -52,25 +60,24 @@ export default {
         };
     },
     created() {
-        console.log(this.announcementVal);
         this.debounceAnnouncementSaving = debounce((val) => {
-            if (this.announcementVal.isNew) {
+            if (this.announcement.isNew) {
                 saveAnnouncement(this.courseId, this.sectionId, this.learningPlanId, val);
             } else {
-                updateAnnouncement(this.courseId, this.sectionId, this.learningPlanId, this.announcementVal.id, val);
+                updateAnnouncement(this.courseId, this.sectionId, this.learningPlanId, this.announcement.id, val);
             }
         }, 1000);
     },
     methods: {
         removeAnnouncement() {
-            deleteAnnouncement(this.announcementVal.id);
-            this.$emit('delete', this.announcementVal.id);
+            deleteAnnouncement(this.announcement.id);
+            this.$emit('delete', this.announcement.id);
         }
     },
     watch: {
         announcementVal(val) {
-            this.$emit('input', val);
             this.debounceAnnouncementSaving(val);
+            this.$emit('input', val);
         }
     }
 };
