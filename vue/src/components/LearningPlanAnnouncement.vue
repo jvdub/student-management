@@ -71,7 +71,7 @@ export default {
     },
     methods: {
         removeAnnouncement() {
-            deleteAnnouncement(this.announcement.id);
+            deleteAnnouncement(this.courseId, this.sectionId, this.learningPlanId, this.announcement.id);
             this.$emit('delete', this.announcement.id);
         },
         handleTextChange(val) {
