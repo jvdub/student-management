@@ -114,6 +114,29 @@ module.exports = {
 
         res.send(announcements);
     },
+    async saveLearningPlanAnnouncement(learningPlanId, announcement, res) {
+        let announcementObj = {
+            learningPlanId: learningPlanId,
+            announcement: announcement.text
+        };
+
+        let newAnnouncement = await Announcement.create(announcementObj);
+
+        res.send(newAnnouncement);
+    },
+    async updateLearningPlanAnnouncement(learningPlanId, announcementInfo, res) {
+        let announcement = await Announcement.findById(announcementInfo.id);
+
+        announcement.set('announcement', announcementInfo.text);
+        await announcement.save();
+
+        res.send(announcement);
+    },
+    async removeLearningPlanAnnouncement(id, res) {
+        let announcement = await Announcement.findById(id);
+        await announcement.destroy();
+        res.sendStatus(200);
+    },
     async addNewLearningPlan(courseId, sectionId, req, res) {
         let body = utils.cloneObject(req.body);
         let plan = {

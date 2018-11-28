@@ -48,12 +48,12 @@
             </b-col>
         </b-row>
         <learning-plan-subject v-for="subject of plan.subjects" :subject.sync="subject" v-bind:editable="false"></learning-plan-subject>
-        <b-row v-if="$store.state.user.role.id === 1 && !plan.expiryDate">
+        <b-row v-if="$store.state.user.role.id === 1">
             <b-col>
                 <b-button @click="addAnnouncement" variant="primary">Add Announcement</b-button>
             </b-col>
         </b-row>
-        <learning-plan-announcement v-for="announcement of plan.announcements" :announcement.sync="announcement" v-bind:id-number="announcement.id"></learning-plan-announcement>
+        <learning-plan-announcement v-for="announcement of plan.announcements" :announcement.sync="announcement"></learning-plan-announcement>
         <b-modal id="activatePlan" title="Activate Plan" @ok="activateLearningPlan">
             <label v-bind:for="'expiry-date'">Expiry Date</label>
             <b-form-input type="date" v-bind:id="'expiry-date'" v-model="plan.expiryDate"></b-form-input>
@@ -144,7 +144,12 @@ export default {
             this.refreshLearningPlanAnnouncements();
         },
         async refreshLearningPlanAnnouncements() {
-            this.plan.announcements = await getLearningPlanAnnouncements.apply(this);
+            let announcements = await getLearningPlanAnnouncements.apply(this);
+
+            for (let a of announcements) {
+                a.isNew = false;
+                this.plan.announcements.push(a);
+            }
         },
         async refreshInstructorName() {
             let teacher = await getInstructor.apply(this);
@@ -178,7 +183,8 @@ export default {
             this.plan.announcements.push({
                 id: this.plan.announcements.length + 1,
                 learningPlanId: this.learningPlanId,
-                announcement: ''
+                announcement: '',
+                isNew: true
             });
         }
     }

@@ -52,6 +52,18 @@ router.get('/api/course/:courseId/sections/:sectionId/learning-plan/:learningPla
     course.getLearningPlanAnnouncements(+req.params.learningPlanId, res);
 });
 
+router.put('/api/course/:courseId/sections/:sectionId/learning-plan/:learningPlanId/announcements/:id', okta.authenticationRequired, function (req, res) {
+    course.updateLearningPlanAnnouncement(+req.params.learningPlanId, req.body, res);
+});
+
+router.post('/api/course/:courseId/sections/:sectionId/learning-plan/:learningPlanId/announcements', okta.authenticationRequired, function (req, res) {
+    course.saveLearningPlanAnnouncement(+req.params.learningPlanId, req.body, res);
+});
+
+router.delete('/api/course/:courseId/sections/:sectionId/learning-plan/:learningPlanId/announcements/:id', okta.authenticationRequired, function (req, res) {
+    course.removeLearningPlanAnnouncement(+req.params.id, res);
+});
+
 router.put('/api/course/:courseId/sections/:sectionId/learning-plan/:learningPlanId/activate', okta.authenticationRequired, function (req, res) {
     course.activateLearningPlan(+req.params.learningPlanId, new Date(req.body.expiryDate), res);
 });
