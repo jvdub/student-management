@@ -95,12 +95,16 @@
                 </span>
             </b-col>
         </b-row>
+        <b-row v-for="announcement of plan.announcements">
+            <p>{{announcement.announcement}}</p>
+        </b-row>
     </b-container>
 </template>
 
 <script>
 import { execute } from '../http.js';
 import { debounce } from '../debounce.js';
+import LearningPlanAnnouncement from '../components/LearningPlanAnnouncement';
 
 async function getInstructor(courseId, sectionId) {
     return execute('get', `/api/course/${courseId}/sections/${sectionId}/teacher`);
@@ -122,8 +126,15 @@ async function updateCurrentPlan(planId, updatedPlan) {
     return execute('put', `/api/student-learning-plan/${planId}`, updatedPlan);
 }
 
+async function getLearningPlanAnnouncements(courseId, sectionId, learningPlanId) {
+    return execute('get', `/api/course/${courseId}/sections/${sectionId}/learning-plan/${learningPlanId}/announcements`);
+}
+
 export default {
     name: 'StudentLearningPlan',
+    components: {
+        LearningPlanAnnouncement
+    },
     data() {
         return {
             studentId: +this.$route.params.studentId,
@@ -172,9 +183,16 @@ export default {
             let p = await getActivePlan(this.studentId, this.courseId, this.sectionId);
 
             this.plan = JSON.parse(p.data);
+            this.plan.announcements = [];
             this.planInfo.id = p.id;
             this.planInfo.StudentId = p.StudentId;
             this.planInfo.learningPlanId = p.learningPlanId;
+            this.refreshLearningPlanAnnouncements();
+        },
+        async refreshLearningPlanAnnouncements() {
+            this.plan.announcements = await getLearningPlanAnnouncements(this.courseId, this.sectionId, this.planInfo.learningPlanId);
+
+            console.log(this.plan);
         },
         async savePlan() {
             updateCurrentPlan(this.planInfo.id, this.plan);
