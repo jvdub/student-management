@@ -95,8 +95,9 @@
                 </span>
             </b-col>
         </b-row>
-        <b-row v-for="announcement of plan.announcements">
-            <p>{{announcement.announcement}}</p>
+        <h3>Announcements</h3>
+        <b-row v-for="a of announcements">
+            <p>{{a.announcement}}</p>
         </b-row>
     </b-container>
 </template>
@@ -148,6 +149,7 @@ export default {
                 }
             },
             plan: {},
+            announcements: [],
             planInfo: {
                 id: 0,
                 StudentId: 0,
@@ -183,16 +185,23 @@ export default {
             let p = await getActivePlan(this.studentId, this.courseId, this.sectionId);
 
             this.plan = JSON.parse(p.data);
-            this.plan.announcements = [];
+            this.announcements = [];
             this.planInfo.id = p.id;
             this.planInfo.StudentId = p.StudentId;
             this.planInfo.learningPlanId = p.learningPlanId;
             this.refreshLearningPlanAnnouncements();
         },
         async refreshLearningPlanAnnouncements() {
-            this.plan.announcements = await getLearningPlanAnnouncements(this.courseId, this.sectionId, this.planInfo.learningPlanId);
+            let announcements = await getLearningPlanAnnouncements(this.courseId, this.sectionId, this.planInfo.learningPlanId);
 
-            console.log(this.plan);
+            console.log(announcements);
+
+            for (let a of announcements) {
+                console.log(a);
+                this.announcements.push(a);
+            }
+
+            console.log(this.announcements);
         },
         async savePlan() {
             updateCurrentPlan(this.planInfo.id, this.plan);

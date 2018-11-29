@@ -48,6 +48,7 @@
             </b-col>
         </b-row>
         <learning-plan-subject v-for="subject of plan.subjects" :subject.sync="subject" v-bind:editable="false"></learning-plan-subject>
+        <h3>Announcements</h3>
         <b-row v-if="$store.state.user.role.id === 1">
             <b-col>
                 <b-button @click="addAnnouncement" variant="primary">Add Announcement</b-button>
