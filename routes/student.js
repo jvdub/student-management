@@ -19,4 +19,8 @@ router.get('/api/student/:studentId/courses', okta.authenticationRequired, (req,
     student.getCoursesForStudent(+req.params.studentId, res);
 });
 
+router.put('/api/student/:studentId/readingTime', okta.authenticationRequired, (req, res) => {
+    student.updateReadingTime(+req.params.studentId, req.body, res);
+});
+
 module.exports = router;

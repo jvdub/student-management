@@ -95,6 +95,26 @@
                 </span>
             </b-col>
         </b-row>
+        <b-row>
+            <b-col>
+                <p>Reading Time</p>
+            </b-col>
+            <b-col>
+                <b-form-input type="number" placeholder="Time spent reading" id="monday-reading" v-model="readingTime.monday"></b-form-input>
+            </b-col>
+            <b-col>
+                <b-form-input type="number" placeholder="Time spent reading" id="tuesday-reading" v-model="readingTime.tuesday"></b-form-input>
+            </b-col>
+            <b-col>
+                <b-form-input type="number" placeholder="Time spent reading" id="wednesday-reading" v-model="readingTime.wednesday"></b-form-input>
+            </b-col>
+            <b-col>
+                <b-form-input type="number" placeholder="Time spent reading" id="thursday-reading" v-model="readingTime.thursday"></b-form-input>
+            </b-col>
+            <b-col>
+                <b-form-input type="number" placeholder="Time spent reading" id="friday-reading" v-model="readingTime.friday"></b-form-input>
+            </b-col>
+        </b-row>
         <h3>Announcements</h3>
         <b-row v-for="a of announcements">
             <p>{{a.announcement}}</p>
@@ -131,6 +151,10 @@ async function getLearningPlanAnnouncements(courseId, sectionId, learningPlanId)
     return execute('get', `/api/course/${courseId}/sections/${sectionId}/learning-plan/${learningPlanId}/announcements`);
 }
 
+async function saveReadingTime(readingTimes) {
+    return execute('post', `/api/student/${studentId}/readingTime`, readingTimes);
+}
+
 export default {
     name: 'StudentLearningPlan',
     components: {
@@ -156,7 +180,14 @@ export default {
                 learningPlanId: 0
             },
             teacher: '',
-            course: ''
+            course: '',
+            readingTime: {
+                monday: null,
+                tuesday: null,
+                wednesday: null,
+                thursday: null,
+                friday: null
+            }
         };
     },
     async created() {
@@ -194,17 +225,13 @@ export default {
         async refreshLearningPlanAnnouncements() {
             let announcements = await getLearningPlanAnnouncements(this.courseId, this.sectionId, this.planInfo.learningPlanId);
 
-            console.log(announcements);
-
             for (let a of announcements) {
-                console.log(a);
                 this.announcements.push(a);
             }
-
-            console.log(this.announcements);
         },
         async savePlan() {
             updateCurrentPlan(this.planInfo.id, this.plan);
+            saveReadingTime(this.readingTime);
         }
     }
 };
