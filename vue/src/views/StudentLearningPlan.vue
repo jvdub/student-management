@@ -100,19 +100,19 @@
                 <p>Reading Time</p>
             </b-col>
             <b-col>
-                <b-form-input type="number" placeholder="Time spent reading" id="monday-reading" v-model="plan.readingTimes.monday"></b-form-input>
+                <b-form-input type="number" placeholder="Time spent reading" id="monday-reading" v-model="plan.readingTimes.monday" @input="debouncePlanSaving"></b-form-input>
             </b-col>
             <b-col>
-                <b-form-input type="number" placeholder="Time spent reading" id="tuesday-reading" v-model="plan.readingTimes.tuesday"></b-form-input>
+                <b-form-input type="number" placeholder="Time spent reading" id="tuesday-reading" v-model="plan.readingTimes.tuesday" @input="debouncePlanSaving"></b-form-input>
             </b-col>
             <b-col>
-                <b-form-input type="number" placeholder="Time spent reading" id="wednesday-reading" v-model="plan.readingTimes.wednesday"></b-form-input>
+                <b-form-input type="number" placeholder="Time spent reading" id="wednesday-reading" v-model="plan.readingTimes.wednesday" @input="debouncePlanSaving"></b-form-input>
             </b-col>
             <b-col>
-                <b-form-input type="number" placeholder="Time spent reading" id="thursday-reading" v-model="plan.readingTimes.thursday"></b-form-input>
+                <b-form-input type="number" placeholder="Time spent reading" id="thursday-reading" v-model="plan.readingTimes.thursday" @input="debouncePlanSaving"></b-form-input>
             </b-col>
             <b-col>
-                <b-form-input type="number" placeholder="Time spent reading" id="friday-reading" v-model="plan.readingTimes.friday"></b-form-input>
+                <b-form-input type="number" placeholder="Time spent reading" id="friday-reading" v-model="plan.readingTimes.friday" @input="debouncePlanSaving"></b-form-input>
             </b-col>
         </b-row>
         <h3>Announcements</h3>
