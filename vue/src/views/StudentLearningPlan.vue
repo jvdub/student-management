@@ -100,19 +100,19 @@
                 <p>Reading Time</p>
             </b-col>
             <b-col>
-                <b-form-input type="number" placeholder="Time spent reading" id="monday-reading" v-model="readingTime.monday"></b-form-input>
+                <b-form-input type="number" placeholder="Time spent reading" id="monday-reading" v-model="plan.readingTimes.monday"></b-form-input>
             </b-col>
             <b-col>
-                <b-form-input type="number" placeholder="Time spent reading" id="tuesday-reading" v-model="readingTime.tuesday"></b-form-input>
+                <b-form-input type="number" placeholder="Time spent reading" id="tuesday-reading" v-model="plan.readingTimes.tuesday"></b-form-input>
             </b-col>
             <b-col>
-                <b-form-input type="number" placeholder="Time spent reading" id="wednesday-reading" v-model="readingTime.wednesday"></b-form-input>
+                <b-form-input type="number" placeholder="Time spent reading" id="wednesday-reading" v-model="plan.readingTimes.wednesday"></b-form-input>
             </b-col>
             <b-col>
-                <b-form-input type="number" placeholder="Time spent reading" id="thursday-reading" v-model="readingTime.thursday"></b-form-input>
+                <b-form-input type="number" placeholder="Time spent reading" id="thursday-reading" v-model="plan.readingTimes.thursday"></b-form-input>
             </b-col>
             <b-col>
-                <b-form-input type="number" placeholder="Time spent reading" id="friday-reading" v-model="readingTime.friday"></b-form-input>
+                <b-form-input type="number" placeholder="Time spent reading" id="friday-reading" v-model="plan.readingTimes.friday"></b-form-input>
             </b-col>
         </b-row>
         <h3>Announcements</h3>
@@ -151,10 +151,6 @@ async function getLearningPlanAnnouncements(courseId, sectionId, learningPlanId)
     return execute('get', `/api/course/${courseId}/sections/${sectionId}/learning-plan/${learningPlanId}/announcements`);
 }
 
-async function saveReadingTime(readingTimes) {
-    return execute('post', `/api/student/${studentId}/readingTime`, readingTimes);
-}
-
 export default {
     name: 'StudentLearningPlan',
     components: {
@@ -172,7 +168,15 @@ export default {
                     lastName: ''
                 }
             },
-            plan: {},
+            plan: {
+                readingTime: {
+                    monday: null,
+                    tuseday: null,
+                    wednesday: null,
+                    thursday: null,
+                    friday: null
+                }
+            },
             announcements: [],
             planInfo: {
                 id: 0,
@@ -180,14 +184,7 @@ export default {
                 learningPlanId: 0
             },
             teacher: '',
-            course: '',
-            readingTime: {
-                monday: null,
-                tuesday: null,
-                wednesday: null,
-                thursday: null,
-                friday: null
-            }
+            course: ''
         };
     },
     async created() {
@@ -231,7 +228,6 @@ export default {
         },
         async savePlan() {
             updateCurrentPlan(this.planInfo.id, this.plan);
-            saveReadingTime(this.readingTime);
         }
     }
 };

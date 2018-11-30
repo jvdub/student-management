@@ -47,7 +47,14 @@ module.exports = {
             classNumber: plan.get('classNumber'),
             theme: plan.get('theme'),
             expiryDate: plan.get('expiryDate'),
-            subjects: subjects
+            subjects: subjects,
+            readingTimes: {
+                monday: null,
+                tuseday: null,
+                wednesday: null,
+                thursday: null,
+                friday: null
+            }
         };
     }
 };
