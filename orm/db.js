@@ -3,7 +3,6 @@ let sqlz = null;
 
 if (process.env.DATABASE_URL) {
     sqlz = new Sequelize(process.env.DATABASE_URL, {
-        host: 'localhost',
         dialect: 'postgres',
         pool: {
             max: 5,
