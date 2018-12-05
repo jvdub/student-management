@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.2/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.38f18604527eb2b9d630f053c27a87af.js"
+  "/precache-manifest.21d154b445526ae25638f8a6fc14b3fc.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "vue-student-management"});

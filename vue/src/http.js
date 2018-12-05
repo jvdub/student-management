@@ -2,7 +2,7 @@ import axios from 'axios';
 import Vue from 'vue';
 
 const client = axios.create({
-    baseURL: 'http://localhost:3000/',
+    baseURL: 'https://apa-docket.herokuapp.com/', // Dev URL: 'http://localhost:3000/',
     json: true
 });
 
