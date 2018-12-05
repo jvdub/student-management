@@ -4,7 +4,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "start": "npm install --prefix ./vue && npm run build-once --prefix ./vue && node ./bin/www"
+    "start": "cd ./vue && npm install && npm run build-once && cd ../ && node ./bin/www"
   },
   "dependencies": {
     "@okta/jwt-verifier": "0.0.12",
