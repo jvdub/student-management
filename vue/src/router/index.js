@@ -21,7 +21,7 @@ Vue.use(Router);
 Vue.use(Auth, {
     issuer: 'https://dev-512457.oktapreview.com/oauth2/default',
     client_id: '0oaglgsgmfgpIX9X80h7',
-    redirect_uri: 'https://apa-docket.herokuapp.com/', // Dev URL: 'http://localhost:3000/implicit/callback',
+    redirect_uri: 'https://apa-docket.herokuapp.com/implicit/callback', // Dev URL: 'http://localhost:3000/implicit/callback',
     scope: 'openid profile email'
 });
 
