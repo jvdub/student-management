@@ -17,5 +17,10 @@ module.exports = {
         let students = persons.map((p) => p.student).filter((i) => i.length > 0)[0];
 
         res.send(students);
+    },
+    async getAllParents(res) {
+        let parents = await Person.findAll();
+
+        res.send(parents);
     }
 };

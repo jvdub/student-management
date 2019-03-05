@@ -49,6 +49,11 @@
                         <b-form-select id="role" text="Role" v-model="role" :options="roleOptions"></b-form-select>
                     </b-form-group>
                 </b-col>
+                <b-col v-if="role === 2">
+                    <b-form-group id="parent" label="Parent" label-for="parent">
+                        <b-form-select id="parent" text="Parent" v-model="parent" :options="parentOptions"></b-form-select>
+                    </b-form-group>
+                </b-col>
             </b-row>
             <b-button type="submit" @click="submit">Create</b-button>
         </b-form>
@@ -70,6 +75,11 @@ function getRoleOptions() {
     return execute('get', '/api/ref/role');
 }
 
+function getParentOptions() {
+    console.log('Here? Maybe...');
+    return execute('get', '/api/parent');
+}
+
 export default {
     name: 'CreateUser',
     data() {
@@ -84,13 +94,16 @@ export default {
             state: '',
             stateOptions: [],
             role: '',
-            roleOptions: []
+            roleOptions: [],
+            parent: '',
+            parentOptions: []
         };
     },
     async created() {
         this.refreshGenderOptions();
         this.refreshStateOptions();
         this.refreshRoleOptions();
+        this.refreshParentOptions();
     },
     methods: {
         async refreshGenderOptions() {
@@ -121,6 +134,17 @@ export default {
                 return {
                     value: role.id,
                     text: role.name
+                };
+            });
+        },
+        async refreshParentOptions() {
+            console.log('here!');
+            let parentData = await getParentOptions();
+
+            this.parentOptions = parentData.map((parent) => {
+                return {
+                    value: parent.id,
+                    text: parent.name
                 };
             });
         },
